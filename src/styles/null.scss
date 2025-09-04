@@ -1,0 +1,99 @@
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:focus,
+:active {
+  outline: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+
+html,
+body {
+  min-width: rem($minWidth);
+  height: 100%;
+}
+
+body {
+  font-family: $fontFamily;
+  font-size: $fontSize;
+  line-height: 125%;
+  color: var(--color-main);
+  background-color: var(--color-white);
+  text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  ::selection {
+    color: var(--color-white);
+    background-color: var(--color-accent);
+  }
+}
+
+input,
+button,
+select,
+textarea {
+  font-family: $fontFamily;
+  font-size: inherit;
+}
+
+button {
+  color: inherit;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+ul li {
+  list-style: none;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+  vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}

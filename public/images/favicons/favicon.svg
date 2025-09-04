@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="1200"><svg width="1200" height="1200" viewBox="0 0 1200 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M357.348 377.885V296.503H842.269V377.885H646.771V923.077H552.54V377.885H357.348Z" fill="black"></path>
+<path d="M1107.69 600C1107.69 319.609 880.391 92.3077 600 92.3077C319.609 92.3077 92.3077 319.609 92.3077 600C92.3077 880.391 319.609 1107.69 600 1107.69V1200C268.629 1200 0 931.371 0 600C0 268.629 268.629 0 600 0C931.371 0 1200 268.629 1200 600C1200 931.371 931.371 1200 600 1200V1107.69C880.391 1107.69 1107.69 880.391 1107.69 600Z" fill="black"></path>
+</svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
+@media (prefers-color-scheme: dark) { :root { filter: none; } }
+</style></svg>

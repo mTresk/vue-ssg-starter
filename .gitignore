@@ -1,0 +1,12 @@
+node_modules/
+.env
+.idea/
+*.code-workspace
+dist/
+build/
+*.log
+.cache/
+*.tmp
+*.DS_Store
+.temp
+src/assets/fonts-raw/*

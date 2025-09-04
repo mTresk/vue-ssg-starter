@@ -1,0 +1,11 @@
+$fontFamily: 'Inter', sans-serif;
+$fontSize: rem(16);
+$minWidth: 375;
+$maxWidth: 1920;
+$maxWidthContainer: 1280;
+$containerPadding: 40;
+$containerWidth: $maxWidthContainer + $containerPadding;
+$pc: em($containerWidth);
+$tablet: em(991.98);
+$mobile: em(767.98);
+$mobileSmall: em(479.98);
