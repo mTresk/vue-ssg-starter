@@ -143,10 +143,6 @@ export default class Popup {
       trigger.addEventListener('click', handleClick)
       trigger.addEventListener('keydown', handleKeyDown)
 
-      if (!trigger.hasAttribute('tabindex')) {
-        trigger.setAttribute('tabindex', '0')
-      }
-
       this.boundHandlers.set(trigger, () => {
         trigger.removeEventListener('click', handleClick)
         trigger.removeEventListener('keydown', handleKeyDown)
