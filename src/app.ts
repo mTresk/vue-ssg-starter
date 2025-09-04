@@ -10,7 +10,6 @@ import Scroll from '@/utils/libs/Scroll'
 import Menu from '@/utils/libs/Menu'
 import Quantity from '@/utils/libs/Quantity'
 import Map from '@/utils/libs/Map'
-import Modal from '@/utils/libs/Modal'
 
 // import '@/utils/script'
 // import '@/utils/forms/datepicker'
@@ -22,12 +21,11 @@ import Modal from '@/utils/libs/Modal'
 // import '@/utils/base/tippy'
 
 export function initializeApp() {
-  // new Modal()
   // new Gallery()
   // new Map()
   // new Menu()
   // new Parallax({})
-  // new Popup({})
+  // new Popup()
   // new ResponsiveAdapter('max')
   // new ScrollWatcher({})
   // new ShowMore()
