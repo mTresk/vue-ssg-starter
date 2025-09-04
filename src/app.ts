@@ -36,4 +36,8 @@ export function initializeApp() {
   // scroll.digitsCounter()
   // scroll.pageNavigation()
   // scroll.scrollDirection()
+
+  if (import.meta.env.MODE === 'development') {
+    window.logger = true
+  }
 }
