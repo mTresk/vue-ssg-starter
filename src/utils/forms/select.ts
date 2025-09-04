@@ -1,20 +1,20 @@
 import NiceSelect from 'nice-select2'
 
-function initSelects() {
-  const selectElements = document.querySelectorAll<HTMLElement>('[data-select]')
+function initSelect() {
+  const elements = document.querySelectorAll<HTMLElement>('[data-select]')
 
-  if (!selectElements.length) {
+  if (!elements.length) {
     return
   }
 
-  selectElements.forEach((select) => {
-    new NiceSelect(select, {
-      placeholder: select.dataset.placeholder,
+  elements.forEach((element) => {
+    new NiceSelect(element, {
+      placeholder: element.dataset.placeholder,
       searchable: false,
     })
   })
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  initSelects()
+  initSelect()
 })

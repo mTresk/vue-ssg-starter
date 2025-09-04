@@ -1,27 +1,13 @@
 import datepicker from 'js-datepicker'
-import 'js-datepicker/src/datepicker'
 
-window.addEventListener('DOMContentLoaded', () => {
-  const datepickerSelectors = document.querySelectorAll<HTMLElement>('[data-datepicker]')
+function initDatepicker() {
+  const elements = document.querySelectorAll<HTMLElement>('[data-datepicker]')
 
-  if (datepickerSelectors.length) {
-    datepickerSelectors.forEach((datepickerSelector) => {
-      datepicker(datepickerSelector, {
+  if (elements.length) {
+    elements.forEach((element) => {
+      datepicker(element, {
         customDays: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
-        customMonths: [
-          'Янв',
-          'Фев',
-          'Мар',
-          'Апр',
-          'Май',
-          'Июн',
-          'Июл',
-          'Авг',
-          'Сен',
-          'Окт',
-          'Ноя',
-          'Дек',
-        ],
+        customMonths: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
         overlayButton: 'Применить',
         overlayPlaceholder: 'Год (4 цифры)',
         startDay: 1,
@@ -32,4 +18,8 @@ window.addEventListener('DOMContentLoaded', () => {
       })
     })
   }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  initDatepicker()
 })
