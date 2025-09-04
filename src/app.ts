@@ -33,7 +33,6 @@ export function initializeApp() {
   // new Quantity()
   // const scroll = new Scroll()
 
-  // scroll.digitsCounter()
   // scroll.pageNavigation()
   // scroll.scrollDirection()
 
