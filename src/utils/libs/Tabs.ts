@@ -1,5 +1,5 @@
 import type { IMediaQueryResult } from '@/types'
-import { dataMediaQueries, getHash, setHash, slideDown, slideUp } from '@/utils/helpers'
+import { dataMediaQueries, getHash, setHash, slideDown, slideUp } from '@/utils/base/helpers'
 
 export default class Tabs {
   private tabs: HTMLElement[]

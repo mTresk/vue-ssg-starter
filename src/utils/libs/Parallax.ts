@@ -1,5 +1,5 @@
 import type { IParallaxConfig, IParallaxMouseElement } from '@/types'
-import { logger } from '@/utils/helpers'
+import { logger } from '@/utils/base/helpers'
 
 export default class Parallax {
   private config: IParallaxConfig

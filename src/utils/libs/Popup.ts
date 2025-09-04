@@ -1,4 +1,4 @@
-import { bodyLock, bodyLockStatus, bodyUnlock, logger } from '@/utils/helpers'
+import { bodyLock, bodyLockStatus, bodyUnlock, logger } from '@/utils/base/helpers'
 
 interface PopupOptions {
   logging?: boolean

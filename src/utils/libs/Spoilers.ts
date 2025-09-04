@@ -1,5 +1,5 @@
 import type { IBreakpoint, IMediaQueryResult } from '@/types'
-import { dataMediaQueries, slideToggle, slideUp } from '@/utils/helpers'
+import { dataMediaQueries, slideToggle, slideUp } from '@/utils/base/helpers'
 
 export default class Spoilers {
   private spoilersArray: HTMLElement[]

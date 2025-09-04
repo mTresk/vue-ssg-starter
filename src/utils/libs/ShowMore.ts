@@ -1,5 +1,5 @@
 import type { IBreakpoint, IMediaQueryResult } from '@/types'
-import { dataMediaQueries, slideDown, slideUp } from '@/utils/helpers'
+import { dataMediaQueries, slideDown, slideUp } from '@/utils/base/helpers'
 
 export default class ShowMore {
   private showMoreBlocks: HTMLElement[]

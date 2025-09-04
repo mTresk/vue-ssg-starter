@@ -1,4 +1,4 @@
-import { bodyLock, bodyLockStatus, bodyLockToggle, bodyUnlock } from '@/utils/helpers'
+import { bodyLock, bodyLockStatus, bodyLockToggle, bodyUnlock } from '@/utils/base/helpers'
 
 export default class Menu {
   private selectors = {

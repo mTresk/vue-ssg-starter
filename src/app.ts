@@ -11,14 +11,14 @@ import Menu from '@/utils/libs/Menu'
 import Quantity from '@/utils/libs/Quantity'
 import Map from '@/utils/libs/Map'
 
-// import '@/utils/custom'
+// import '@/utils/script'
 // import '@/utils/forms/datepicker'
 // import '@/utils/forms/range'
 // import '@/utils/forms/inputmask'
 // import '@/utils/forms/select'
-// import '@/utils/sliders'
-// import '@/utils/scrollbar'
-// import '@/utils/tippy'
+// import '@/utils/base/sliders'
+// import '@/utils/base/scrollbar'
+// import '@/utils/base/tippy'
 
 export function initializeApp() {
   // new Gallery()

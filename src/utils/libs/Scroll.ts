@@ -1,4 +1,4 @@
-import { getHash, logger } from '@/utils/helpers'
+import { getHash, logger } from '@/utils/base/helpers'
 import Menu from '@/utils/libs/Menu'
 
 class Scroll {

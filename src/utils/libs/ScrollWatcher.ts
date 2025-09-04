@@ -1,5 +1,5 @@
 import type { IWatcherConfig, IWatcherElement, IWatcherParams } from '@/types'
-import { logger, uniqArray } from '@/utils/helpers'
+import { logger, uniqArray } from '@/utils/base/helpers'
 
 export default class ScrollWatcher {
   private config: IWatcherConfig
