@@ -9,12 +9,12 @@ import Tabs from '@/utils/libs/Tabs'
 import Scroll from '@/utils/libs/Scroll'
 import Menu from '@/utils/libs/Menu'
 import Quantity from '@/utils/libs/Quantity'
+import Map from '@/utils/libs/Map'
 
 // import '@/utils/custom'
 // import '@/utils/forms/datepicker'
 // import '@/utils/forms/range'
 // import '@/utils/forms/inputmask'
-// import '@/utils/map'
 // import '@/utils/select'
 // import '@/utils/sliders'
 // import '@/utils/scrollbar'
@@ -22,6 +22,7 @@ import Quantity from '@/utils/libs/Quantity'
 
 export function initializeApp() {
   // new Gallery()
+  // new Map()
   // new Menu()
   // new Parallax({})
   // new Popup({})
