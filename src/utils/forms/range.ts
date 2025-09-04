@@ -5,80 +5,77 @@ interface HTMLElementWithNoUiSlider extends HTMLElement {
   noUiSlider: noUiSlider.API
 }
 
-export function rangeInit() {
-  const priceSlider = document.querySelector<HTMLElement>(
-    '[data-range-slider]',
-  )
+function initRangeSlider() {
+  const elements = document.querySelectorAll<HTMLElement>('[data-range]')
 
-  if (!priceSlider) {
+  if (!elements.length) {
     return
   }
 
-  const from = priceSlider.getAttribute('data-range-slider-from') || '0'
-  const to = priceSlider.getAttribute('data-range-slider-to') || '100'
+  elements.forEach((element) => {
+    const sliderElement = element.querySelector('[data-range-slider]') as HTMLElementWithNoUiSlider
+    const min = sliderElement.getAttribute('data-range-slider-min') || '0'
+    const max = sliderElement.getAttribute('data-range-slider-max') || '100'
 
-  noUiSlider.create(priceSlider as HTMLElementWithNoUiSlider, {
-    start: [Number(from), Number(to)],
-    connect: true,
-    range: {
-      min: Number(from),
-      max: Number(to),
-    },
+    noUiSlider.create(sliderElement, {
+      start: [Number(min), Number(max)],
+      connect: true,
+      range: {
+        min: Number(min),
+        max: Number(max),
+      },
+    })
+
+    const rangeStart = element.querySelector<HTMLInputElement>('[data-range-min]')
+    const rangeEnd = element.querySelector<HTMLInputElement>('[data-range-max]')
+
+    if (!rangeStart || !rangeEnd) {
+      return
+    }
+
+    rangeStart.value = min
+    rangeEnd.value = max
+
+    function setrangeValues() {
+      if (!rangeStart || !rangeEnd) {
+        return
+      }
+
+      let rangeStartValue: number | null = null
+      let rangeEndValue: number | null = null
+
+      if (rangeStart.value !== '') {
+        rangeStartValue = Number(rangeStart.value)
+      }
+
+      if (rangeEnd.value !== '') {
+        rangeEndValue = Number(rangeEnd.value)
+      }
+
+      sliderElement.noUiSlider.set([rangeStartValue, rangeEndValue])
+    }
+
+    function setValue() {
+      if (!rangeStart || !rangeEnd) {
+        return
+      }
+
+      const sliderValueNumber = sliderElement.noUiSlider.get(true) as number[]
+      const startValue = sliderValueNumber[0]
+      const endValue = sliderValueNumber[1]
+
+      if (startValue !== undefined && endValue !== undefined) {
+        rangeStart.value = Math.round(startValue).toString()
+        rangeEnd.value = Math.round(endValue).toString()
+      }
+    }
+
+    rangeStart.addEventListener('change', setrangeValues)
+    rangeEnd.addEventListener('change', setrangeValues)
+    sliderElement.noUiSlider.on('slide', setValue)
   })
-
-  const priceStart = document.querySelector<HTMLInputElement>(
-    '[data-range-slider-min]',
-  )
-  const priceEnd = document.querySelector<HTMLInputElement>(
-    '[data-range-slider-max]',
-  )
-
-  if (!priceStart || !priceEnd) {
-    return
-  }
-
-  priceStart.value = from
-  priceEnd.value = to
-
-  const typedSlider = priceSlider as HTMLElementWithNoUiSlider
-
-  function setPriceValues() {
-    if (!priceStart || !priceEnd) {
-      return
-    }
-
-    let priceStartValue: number | null = null
-    let priceEndValue: number | null = null
-
-    if (priceStart.value !== '') {
-      priceStartValue = Number(priceStart.value)
-    }
-    if (priceEnd.value !== '') {
-      priceEndValue = Number(priceEnd.value)
-    }
-    typedSlider.noUiSlider.set([priceStartValue, priceEndValue])
-  }
-
-  function setValue() {
-    if (!priceStart || !priceEnd) {
-      return
-    }
-
-    const sliderValueNumber = typedSlider.noUiSlider.get(true) as number[]
-    const startValue = sliderValueNumber[0]
-    const endValue = sliderValueNumber[1]
-
-    if (startValue !== undefined && endValue !== undefined) {
-      priceStart.value = Math.round(startValue).toString()
-      priceEnd.value = Math.round(endValue).toString()
-    }
-  }
-
-  priceStart.addEventListener('change', setPriceValues)
-  priceEnd.addEventListener('change', setPriceValues)
-  typedSlider.noUiSlider.on('slide', setValue)
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  rangeInit()
+  initRangeSlider()
 })
