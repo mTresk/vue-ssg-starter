@@ -54,6 +54,10 @@ body {
   }
 }
 
+#app {
+  height: 100%;
+}
+
 .wrapper {
   display: flex;
   flex-direction: column;
