@@ -223,7 +223,7 @@ export function dataMediaQueries(array: NodeListOf<HTMLElement>, dataSetValue: s
   return []
 }
 
-export function logger(message: string): void {
+export function logger(message: unknown): void {
   setTimeout(() => {
     if (window.logger) {
       console.warn(message)
