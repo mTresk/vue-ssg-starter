@@ -52,7 +52,7 @@ export default class Popup {
     this.addCloseListeners()
   }
 
-  public closeDialog(dialogElement: HTMLDialogElement): void {
+  private closeDialog(dialogElement: HTMLDialogElement): void {
     if (dialogElement.id) {
       this.close(dialogElement.id)
     }
