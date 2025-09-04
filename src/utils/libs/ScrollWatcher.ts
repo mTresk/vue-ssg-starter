@@ -34,20 +34,18 @@ export default class ScrollWatcher {
 
       const uniqParams = uniqArray(
         Array.from(items).map((item) => {
-          return `
-          ${item.dataset.watchRoot ? item.dataset.watchRoot : null
-          }|${item.dataset.watchMargin ? item.dataset.watchMargin : '0px'}|${item.dataset.watchThreshold ? item.dataset.watchThreshold : 0}`
+          return `${item.dataset.watchRoot ? item.dataset.watchRoot : null}|${item.dataset.watchMargin ? item.dataset.watchMargin : '0px'}|${item.dataset.watchThreshold ? item.dataset.watchThreshold : 0}`
         }),
       )
 
       uniqParams.forEach((uniqParam) => {
         const uniqParamArray = uniqParam.split('|')
-        const root = uniqParamArray[0] || null
+        const root = uniqParamArray[0] === 'null' ? null : uniqParamArray[0] || null
         const margin = uniqParamArray[1] || '0px'
         const threshold = uniqParamArray[2] || '0'
 
         const paramsWatch: IWatcherParams = {
-          root: root === 'null' ? null : root,
+          root,
           margin,
           threshold,
         }
@@ -57,7 +55,7 @@ export default class ScrollWatcher {
           const watchMargin = item.dataset.watchMargin ? item.dataset.watchMargin : '0px'
           const watchThreshold = item.dataset.watchThreshold ? item.dataset.watchThreshold : '0'
 
-          if (String(watchRoot) === paramsWatch.root && String(watchMargin) === paramsWatch.margin && String(watchThreshold) === paramsWatch.threshold) {
+          if (String(watchRoot) === String(paramsWatch.root) && String(watchMargin) === paramsWatch.margin && String(watchThreshold) === paramsWatch.threshold) {
             return item
           }
 
@@ -79,13 +77,16 @@ export default class ScrollWatcher {
   getScrollWatcherConfig(paramsWatch: IWatcherParams): IntersectionObserverInit | null {
     const configWatcher: IntersectionObserverInit = {}
 
-    if (paramsWatch.root && document.querySelector(paramsWatch.root)) {
-      configWatcher.root = document.querySelector(paramsWatch.root)
-    }
-    else if (paramsWatch.root !== 'null') {
-      this.scrollWatcherLogging(`Эмм... родительского объекта ${paramsWatch.root} нет на странице`)
+    if (paramsWatch.root && paramsWatch.root !== 'null') {
+      const rootElement = document.querySelector(paramsWatch.root)
 
-      return null
+      if (rootElement) {
+        configWatcher.root = rootElement
+      }
+      else {
+        this.scrollWatcherLogging(`Эмм... родительского объекта ${paramsWatch.root} нет на странице`)
+        return null
+      }
     }
 
     configWatcher.rootMargin = paramsWatch.margin
