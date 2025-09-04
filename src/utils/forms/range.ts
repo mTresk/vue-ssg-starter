@@ -79,6 +79,6 @@ export function rangeInit() {
   typedSlider.noUiSlider.on('slide', setValue)
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', () => {
   rangeInit()
 })

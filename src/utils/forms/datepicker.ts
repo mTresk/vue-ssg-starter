@@ -1,7 +1,7 @@
 import datepicker from 'js-datepicker'
 import 'js-datepicker/src/datepicker'
 
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', () => {
   const datepickerSelectors = document.querySelectorAll<HTMLElement>('[data-datepicker]')
 
   if (datepickerSelectors.length) {
