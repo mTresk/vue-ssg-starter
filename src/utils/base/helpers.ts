@@ -242,3 +242,11 @@ export function indexInParent(parent: Element, element: Element): number {
 
   return Array.prototype.indexOf.call(array, element)
 }
+
+export function pxToRem(pixels: number) {
+  const htmlElementFontSize = Number.parseInt(
+    getComputedStyle(document.documentElement).fontSize,
+  )
+
+  return pixels / htmlElementFontSize
+}
