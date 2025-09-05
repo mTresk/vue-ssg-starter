@@ -10,3 +10,4 @@ build/
 *.DS_Store
 .temp
 src/assets/fonts-raw/*
+!src/assets/fonts-raw/.gitkeep
