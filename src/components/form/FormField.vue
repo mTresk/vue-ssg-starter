@@ -1,7 +1,7 @@
 <script setup lang="ts">
 interface IProps {
   id: string
-  type?: 'input' | 'textarea'
+  type: string
   name: string
   placeholder: string
 }
@@ -17,6 +17,7 @@ defineProps<IProps>()
     <component
       :is="type === 'textarea' ? 'textarea' : 'input'"
       :id="id"
+      :type="type"
       class="form-field__input"
       :class="type === 'textarea' ? 'form-field__input--textarea' : ''"
       autocomplete="off"
