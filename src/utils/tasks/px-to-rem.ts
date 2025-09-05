@@ -1,7 +1,17 @@
 import fs from 'node:fs'
 import { glob } from 'glob'
 
-function convertPxToRem(content: string): string {
+function convertPxToRem(content: string, filePath: string): string {
+  if (filePath.endsWith('.vue')) {
+    return content.replace(/<template[^>]*>([\s\S]*?)<\/template>|(-?\d+(?:\.\d+)?)px/g, (match, templateContent, pxValue) => {
+      if (templateContent !== undefined) {
+        return match
+      }
+
+      return `rem(${pxValue})`
+    })
+  }
+
   return content.replace(/(-?\d+(?:\.\d+)?)px/g, 'rem($1)')
 }
 
@@ -15,7 +25,7 @@ async function processFiles(): Promise<void> {
 
     for (const file of files) {
       const content = fs.readFileSync(file, 'utf8')
-      let newContent = convertPxToRem(content)
+      let newContent = convertPxToRem(content, file)
 
       newContent = fixNegativeRem(newContent)
 
