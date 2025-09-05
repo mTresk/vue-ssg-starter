@@ -26,8 +26,10 @@ export default function svgSprite(options: SvgSpriteOptions = {}): Plugin {
 
       const viewBoxMatch = content.match(/viewBox="([^"]*)"/)
       const viewBox = viewBoxMatch ? viewBoxMatch[1] : '0 0 24 24'
+      const fillMatch = content.match(/fill="([^"]*)"/)
+      const fillRule = fillMatch ? ` fill="${fillMatch[1]}"` : ''
 
-      return `<symbol id="${name}" viewBox="${viewBox}">${svgContent}</symbol>`
+      return `<symbol id="${name}" viewBox="${viewBox}"${fillRule}>${svgContent}</symbol>`
     }).join('\n\t')
 
     return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
