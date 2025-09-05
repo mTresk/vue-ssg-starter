@@ -1,5 +1,6 @@
 <script setup lang="ts">
 interface IProps {
+  id: string
   name: string
   value: string
   checked?: boolean
@@ -11,8 +12,10 @@ defineProps<IProps>()
 <template>
   <label
     class="checkbox"
+    :for="id"
   >
     <input
+      :id="id"
       class="checkbox__input"
       type="checkbox"
       :value="value"
