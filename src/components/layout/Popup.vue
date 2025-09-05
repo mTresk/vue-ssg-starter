@@ -49,6 +49,8 @@ defineProps<IProps>()
 html {
   &:has(dialog[open]) {
     overflow: hidden;
+    overscroll-behavior: none;
+    touch-action: none;
   }
 }
 
