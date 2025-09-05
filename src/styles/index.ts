@@ -1,6 +1,7 @@
 import './fonts.scss'
 import './colors.scss'
 import './null.scss'
+import './globals.scss'
 // import 'swiper/css'
 // import 'lightgallery/css/lightgallery.css'
 // import 'tippy.js/dist/tippy.css'
