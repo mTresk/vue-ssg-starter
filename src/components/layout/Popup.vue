@@ -46,7 +46,7 @@ defineProps<IProps>()
 </template>
 
 <style lang="scss">
-body {
+html {
   &:has(dialog[open]) {
     overflow: hidden;
   }
