@@ -1,3 +1,5 @@
+import { bodyLock, bodyUnlock } from '@/utils/base/helpers'
+
 export default class Popup {
   private selectors = {
     trigger: '[data-popup]',
@@ -28,6 +30,7 @@ export default class Popup {
 
       dialog.showModal()
       dialog.focus()
+      bodyLock()
     }
   }
 
@@ -43,6 +46,7 @@ export default class Popup {
       setTimeout(() => {
         dialog.close()
         dialog.removeAttribute('closing')
+        bodyUnlock()
       }, 300)
     }
   }
