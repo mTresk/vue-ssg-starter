@@ -5,6 +5,18 @@ export default class ScrollWatcher {
   private config: IWatcherConfig
   private observer: IntersectionObserver | null
 
+  private dataSelectors = {
+    root: '[data-watch]',
+    watchOnce: 'data-watch-once',
+  }
+
+  private classSelectors = {
+    watcher: 'watcher',
+    watcherActive: 'watcher-active',
+    watcherCallback: 'watcher-callback',
+    watcherView: 'watcher-view',
+  }
+
   constructor(props: Partial<IWatcherConfig>) {
     const defaultConfig = {
       logging: true,
@@ -13,7 +25,7 @@ export default class ScrollWatcher {
     this.config = Object.assign(defaultConfig, props)
     this.observer = null
 
-    if (!document.documentElement.classList.contains('watcher')) {
+    if (!document.documentElement.classList.contains(this.classSelectors.watcher)) {
       this.scrollWatcherRun()
     }
   }
@@ -23,9 +35,9 @@ export default class ScrollWatcher {
   }
 
   scrollWatcherRun(): void {
-    document.documentElement.classList.add('watcher')
+    document.documentElement.classList.add(this.classSelectors.watcher)
 
-    this.scrollWatcherConstructor(document.querySelectorAll('[data-watch]') as NodeListOf<IWatcherElement>)
+    this.scrollWatcherConstructor(document.querySelectorAll(this.dataSelectors.root) as NodeListOf<IWatcherElement>)
   }
 
   scrollWatcherConstructor(items: NodeListOf<IWatcherElement>): void {
@@ -133,18 +145,18 @@ export default class ScrollWatcher {
 
   scrollWatcherIntersecting(entry: IntersectionObserverEntry, targetElement: IWatcherElement): void {
     if (entry.isIntersecting) {
-      if (!targetElement.classList.contains('watcher-view')) {
-        targetElement.classList.add('watcher-view')
+      if (!targetElement.classList.contains(this.classSelectors.watcherView)) {
+        targetElement.classList.add(this.classSelectors.watcherView)
       }
 
-      this.scrollWatcherLogging(`Я вижу ${targetElement.classList}, добавил класс watcher-view`)
+      this.scrollWatcherLogging(`Я вижу ${targetElement.classList}, добавил класс ${this.classSelectors.watcherView}`)
     }
     else {
-      if (targetElement.classList.contains('watcher-view')) {
-        targetElement.classList.remove('watcher-view')
+      if (targetElement.classList.contains(this.classSelectors.watcherView)) {
+        targetElement.classList.remove(this.classSelectors.watcherView)
       }
 
-      this.scrollWatcherLogging(`Я не вижу ${targetElement.classList}, убрал класс watcher-view`)
+      this.scrollWatcherLogging(`Я не вижу ${targetElement.classList}, убрал класс ${this.classSelectors.watcherView}`)
     }
   }
 
@@ -163,12 +175,12 @@ export default class ScrollWatcher {
 
     this.scrollWatcherIntersecting(entry, targetElement)
 
-    if (targetElement.hasAttribute('data-watch-once') && entry.isIntersecting) {
+    if (targetElement.hasAttribute(this.dataSelectors.watchOnce) && entry.isIntersecting) {
       this.scrollWatcherOff(targetElement, observer)
     }
 
     document.dispatchEvent(
-      new CustomEvent('watcherCallback', { detail: { entry } }),
+      new CustomEvent(this.classSelectors.watcherCallback, { detail: { entry } }),
     )
   }
 }

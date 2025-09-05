@@ -9,9 +9,20 @@ export default class ShowMore {
   private resizeHandler: ((e: Event) => void) | null = null
   private resizeTimeout: number | null = null
 
-  constructor(selector: string = '[data-showmore]') {
+  private dataSelectors = {
+    root: '[data-showmore]',
+    content: '[data-showmore-content]',
+    button: '[data-showmore-button]',
+  }
+
+  private classSelectors = {
+    active: 'showmore-active',
+    slide: 'slide',
+  }
+
+  constructor() {
     this.showMoreBlocks = Array.from(
-      document.querySelectorAll<HTMLElement>(selector),
+      document.querySelectorAll<HTMLElement>(this.dataSelectors.root),
     )
 
     this.showMoreBlocksRegular = this.showMoreBlocks.filter((item) => {
@@ -49,7 +60,7 @@ export default class ShowMore {
       window.addEventListener('resize', this.resizeHandler)
 
       this.mdQueriesArray = dataMediaQueries(
-        document.querySelectorAll<HTMLElement>('[data-showmore]'),
+        document.querySelectorAll<HTMLElement>(this.dataSelectors.root),
         'showmoreMedia',
       )
 
@@ -83,8 +94,8 @@ export default class ShowMore {
       : showMoreBlock
 
     if ((matchMedia as MediaQueryList)?.matches || !matchMedia) {
-      const showMoreContent = showMoreBlock.querySelector<HTMLElement>('[data-showmore-content]')
-      const showMoreButton = showMoreBlock.querySelector<HTMLElement>('[data-showmore-button]')
+      const showMoreContent = showMoreBlock.querySelector<HTMLElement>(this.dataSelectors.content)
+      const showMoreButton = showMoreBlock.querySelector<HTMLElement>(this.dataSelectors.button)
 
       if (!showMoreContent || !showMoreButton) {
         return
@@ -102,11 +113,11 @@ export default class ShowMore {
       }
     }
     else {
-      const showMoreContent = showMoreBlock.querySelector<HTMLElement>('[data-showmore-content]')
-      const showMoreButton = showMoreBlock.querySelector<HTMLElement>('[data-showmore-button]')
+      const showMoreContent = showMoreBlock.querySelector<HTMLElement>(this.dataSelectors.content)
+      const showMoreButton = showMoreBlock.querySelector<HTMLElement>(this.dataSelectors.button)
 
       if (showMoreContent && showMoreButton) {
-        showMoreBlock.classList.remove('showmore-active')
+        showMoreBlock.classList.remove(this.classSelectors.active)
         showMoreContent.style.removeProperty('height')
         showMoreContent.style.removeProperty('overflow')
         showMoreContent.hidden = false
@@ -232,7 +243,7 @@ export default class ShowMore {
   }
 
   private getAnimationSpeed(showMoreBlock: HTMLElement): number {
-    const showMoreButton = showMoreBlock.querySelector<HTMLElement>('[data-showmore-button]')
+    const showMoreButton = showMoreBlock.querySelector<HTMLElement>(this.dataSelectors.button)
 
     if (showMoreButton?.dataset.showmoreButton) {
       const buttonValue = showMoreButton.dataset.showmoreButton
@@ -252,10 +263,10 @@ export default class ShowMore {
   private handleActions(e: Event): void {
     const targetEvent = e.target as HTMLElement
 
-    if (targetEvent.closest('[data-showmore-button]')) {
-      const showMoreButton = targetEvent.closest('[data-showmore-button]') as HTMLElement
-      const showMoreBlock = showMoreButton.closest('[data-showmore]') as HTMLElement
-      const showMoreContent = showMoreBlock.querySelector<HTMLElement>('[data-showmore-content]')
+    if (targetEvent.closest(this.dataSelectors.button)) {
+      const showMoreButton = targetEvent.closest(this.dataSelectors.button) as HTMLElement
+      const showMoreBlock = showMoreButton.closest(this.dataSelectors.root) as HTMLElement
+      const showMoreContent = showMoreBlock.querySelector<HTMLElement>(this.dataSelectors.content)
 
       if (!showMoreContent) {
         return
@@ -264,15 +275,15 @@ export default class ShowMore {
       const showMoreSpeed = this.getAnimationSpeed(showMoreBlock)
       const hiddenHeight = this.getHeight(showMoreBlock, showMoreContent)
 
-      if (!showMoreContent.classList.contains('slide')) {
-        if (showMoreBlock.classList.contains('showmore-active')) {
+      if (!showMoreContent.classList.contains(this.classSelectors.slide)) {
+        if (showMoreBlock.classList.contains(this.classSelectors.active)) {
           slideUp(showMoreContent, showMoreSpeed, hiddenHeight)
         }
         else {
           slideDown(showMoreContent, showMoreSpeed, hiddenHeight)
         }
 
-        showMoreBlock.classList.toggle('showmore-active')
+        showMoreBlock.classList.toggle(this.classSelectors.active)
       }
     }
   }

@@ -6,6 +6,7 @@ class ResponsiveAdapter {
   private daClassname: string = ''
   private nodes: HTMLElement[] = []
   private mediaQueries: string[] = []
+  private selector: string = '[data-da]'
 
   constructor(type: TResponsiveAdapterType) {
     this.type = type
@@ -15,7 +16,7 @@ class ResponsiveAdapter {
   init(): void {
     this.objects = []
     this.daClassname = 'responsive-adapter'
-    this.nodes = Array.from(document.querySelectorAll('[data-da]')) as HTMLElement[]
+    this.nodes = Array.from(document.querySelectorAll(this.selector)) as HTMLElement[]
 
     this.nodes.forEach((node) => {
       const data = node.dataset.da?.trim() || ''

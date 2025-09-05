@@ -7,9 +7,22 @@ export default class Spoilers {
   private mdQueriesArray: IMediaQueryResult[] | null = null
   private outsideClickHandler: ((e: MouseEvent) => void) | null = null
 
-  constructor(selector: string = '[data-spoilers]') {
+  private dataSelectors = {
+    root: '[data-spoilers]',
+    spoiler: '[data-spoiler]',
+    spoilerClose: '[data-spoiler-close]',
+    oneSpoiler: 'data-one-spoiler',
+  }
+
+  private classSelectors = {
+    spoilerActive: 'spoiler-active',
+    slide: 'slide',
+    spoilerInit: 'spoiler-init',
+  }
+
+  constructor() {
     this.spoilersArray = Array.from(
-      document.querySelectorAll<HTMLElement>(selector),
+      document.querySelectorAll<HTMLElement>(this.dataSelectors.root),
     )
 
     this.spoilersRegular = this.spoilersArray.filter((item) => {
@@ -29,7 +42,7 @@ export default class Spoilers {
     }
 
     this.mdQueriesArray = dataMediaQueries(
-      document.querySelectorAll<HTMLElement>('[data-spoilers]'),
+      document.querySelectorAll<HTMLElement>(this.dataSelectors.root),
       'spoilers',
     )
 
@@ -47,10 +60,10 @@ export default class Spoilers {
   }
 
   private initSpoilerBody(spoilersBlock: HTMLElement, hideSpoilerBody = true): void {
-    const spoilerTitlesNodeList = spoilersBlock.querySelectorAll<HTMLElement>('[data-spoiler]')
+    const spoilerTitlesNodeList = spoilersBlock.querySelectorAll<HTMLElement>(this.dataSelectors.spoiler)
 
     const spoilerTitles = Array.from(spoilerTitlesNodeList).filter((item) => {
-      return item.closest('[data-spoilers]') === spoilersBlock
+      return item.closest(this.dataSelectors.root) === spoilersBlock
     })
 
     if (spoilerTitles.length) {
@@ -58,7 +71,7 @@ export default class Spoilers {
         if (hideSpoilerBody) {
           spoilerTitle.removeAttribute('tabindex')
 
-          if (!spoilerTitle.classList.contains('spoiler-active')) {
+          if (!spoilerTitle.classList.contains(this.classSelectors.spoilerActive)) {
             const nextElement = spoilerTitle.nextElementSibling as HTMLElement
 
             if (nextElement) {
@@ -79,11 +92,11 @@ export default class Spoilers {
   }
 
   private hideSpoilersBody(spoilersBlock: HTMLElement): void {
-    const spoilerActiveTitle = spoilersBlock.querySelector<HTMLElement>('[data-spoiler].spoiler-active')
+    const spoilerActiveTitle = spoilersBlock.querySelector<HTMLElement>(`${this.dataSelectors.spoiler}.${this.classSelectors.spoilerActive}`)
     const spoilerSpeed = spoilersBlock.dataset.spoilersSpeed ? Number.parseInt(spoilersBlock.dataset.spoilersSpeed) : 500
 
-    if (spoilerActiveTitle && !spoilersBlock.querySelectorAll('.slide').length) {
-      spoilerActiveTitle.classList.remove('spoiler-active')
+    if (spoilerActiveTitle && !spoilersBlock.querySelectorAll(`.${this.classSelectors.slide}`).length) {
+      spoilerActiveTitle.classList.remove(this.classSelectors.spoilerActive)
 
       const nextElement = spoilerActiveTitle.nextElementSibling as HTMLElement
 
@@ -95,19 +108,19 @@ export default class Spoilers {
 
   private setSpoilerAction = (e: Event): void => {
     const el = e.target as HTMLElement
-    const spoilerTitle = el.closest('[data-spoiler]') as HTMLElement | null
+    const spoilerTitle = el.closest(this.dataSelectors.spoiler) as HTMLElement | null
 
     if (spoilerTitle) {
-      const spoilersBlock = spoilerTitle.closest('[data-spoilers]') as HTMLElement
-      const oneSpoiler = spoilersBlock.hasAttribute('data-one-spoiler')
+      const spoilersBlock = spoilerTitle.closest(this.dataSelectors.root) as HTMLElement
+      const oneSpoiler = spoilersBlock.hasAttribute(this.dataSelectors.oneSpoiler)
       const spoilerSpeed = spoilersBlock.dataset.spoilersSpeed ? Number.parseInt(spoilersBlock.dataset.spoilersSpeed) : 500
 
-      if (!spoilersBlock.querySelectorAll('.slide').length) {
-        if (oneSpoiler && !spoilerTitle.classList.contains('spoiler-active')) {
+      if (!spoilersBlock.querySelectorAll(`.${this.classSelectors.slide}`).length) {
+        if (oneSpoiler && !spoilerTitle.classList.contains(this.classSelectors.spoilerActive)) {
           this.hideSpoilersBody(spoilersBlock)
         }
 
-        spoilerTitle.classList.toggle('spoiler-active')
+        spoilerTitle.classList.toggle(this.classSelectors.spoilerActive)
 
         const nextElement = spoilerTitle.nextElementSibling as HTMLElement
 
@@ -125,12 +138,12 @@ export default class Spoilers {
       }
 
       if ((matchMedia as MediaQueryList)?.matches || !matchMedia) {
-        spoilersBlock.classList.add('spoiler-init')
+        spoilersBlock.classList.add(this.classSelectors.spoilerInit)
         this.initSpoilerBody(spoilersBlock)
         spoilersBlock.addEventListener('click', this.setSpoilerAction)
       }
       else {
-        spoilersBlock.classList.remove('spoiler-init')
+        spoilersBlock.classList.remove(this.classSelectors.spoilerInit)
         this.initSpoilerBody(spoilersBlock, false)
         spoilersBlock.removeEventListener('click', this.setSpoilerAction)
       }
@@ -138,20 +151,20 @@ export default class Spoilers {
   }
 
   private initOutsideClickHandler(): void {
-    const spoilersClose = document.querySelectorAll<HTMLElement>('[data-spoiler-close]')
+    const spoilersClose = document.querySelectorAll<HTMLElement>(this.dataSelectors.spoilerClose)
 
     if (spoilersClose.length) {
       this.outsideClickHandler = (e: MouseEvent) => {
         const el = e.target as HTMLElement
 
-        if (!el.closest('[data-spoilers]')) {
+        if (!el.closest(this.dataSelectors.root)) {
           spoilersClose.forEach((spoilerClose) => {
-            const spoilersBlock = spoilerClose.closest('[data-spoilers]') as HTMLElement | null
+            const spoilersBlock = spoilerClose.closest(this.dataSelectors.root) as HTMLElement | null
 
-            if (spoilersBlock?.classList.contains('spoiler-init')) {
+            if (spoilersBlock?.classList.contains(this.classSelectors.spoilerInit)) {
               const spoilerSpeed = spoilersBlock.dataset.spoilersSpeed ? Number.parseInt(spoilersBlock.dataset.spoilersSpeed) : 500
 
-              spoilerClose.classList.remove('spoiler-active')
+              spoilerClose.classList.remove(this.classSelectors.spoilerActive)
 
               const nextElement = spoilerClose.nextElementSibling as HTMLElement
 

@@ -4,6 +4,11 @@ import { logger } from '@/utils/base/helpers'
 export default class Parallax {
   private config: IParallaxConfig
 
+  private selectors = {
+    root: '[data-prlx-mouse]',
+    wrapper: '[data-prlx-mouse-wrapper]',
+  }
+
   constructor(props: Partial<IParallaxConfig>) {
     const defaultConfig: IParallaxConfig = {
       init: true,
@@ -13,7 +18,7 @@ export default class Parallax {
     this.config = Object.assign(defaultConfig, props)
 
     if (this.config.init) {
-      const parallaxMouse: NodeListOf<IParallaxMouseElement> = document.querySelectorAll('[data-prlx-mouse]')
+      const parallaxMouse: NodeListOf<IParallaxMouseElement> = document.querySelectorAll(this.selectors.root)
 
       if (parallaxMouse.length) {
         this.parallaxMouseInit(parallaxMouse)
@@ -27,7 +32,7 @@ export default class Parallax {
 
   private parallaxMouseInit(parallaxMouse: NodeListOf<IParallaxMouseElement>): void {
     parallaxMouse.forEach((el: IParallaxMouseElement) => {
-      const parallaxMouseWrapper: Element | null = el.closest('[data-prlx-mouse-wrapper]')
+      const parallaxMouseWrapper: Element | null = el.closest(this.selectors.wrapper)
       const paramCoefficientX: number = el.dataset.prlxCx ? +el.dataset.prlxCx : 100
       const paramCoefficientY: number = el.dataset.prlxCy ? +el.dataset.prlxCy : 100
       const directionX: number = el.hasAttribute('data-prlx-dxr') ? -1 : 1

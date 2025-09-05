@@ -1,8 +1,10 @@
 export default class Map {
   private mapRoot: HTMLElement | null
+  private selector: string = '[data-map]'
+  private apiKey: string = import.meta.env.VITE_YANDEX_MAPS_API_KEY
 
   constructor() {
-    this.mapRoot = document.querySelector<HTMLElement>('[data-map]')
+    this.mapRoot = document.querySelector<HTMLElement>(this.selector)
     this.init()
   }
 
@@ -92,7 +94,7 @@ export default class Map {
   private loadYMaps() {
     return new Promise((resolve, reject) => {
       const script = document.createElement('script')
-      script.src = `https://api-maps.yandex.ru/v3/?apikey=${import.meta.env.VITE_YANDEX_MAPS_API_KEY}&lang=ru_RU`
+      script.src = `https://api-maps.yandex.ru/v3/?apikey=${this.apiKey}&lang=ru_RU`
       script.onload = () => {
         // @ts-expect-error - ymaps3
         resolve(window.ymaps3)

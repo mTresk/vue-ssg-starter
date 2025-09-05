@@ -3,19 +3,19 @@ import lightGallery from 'lightgallery'
 
 export default class Gallery {
   private galleries: LightGallery[] = []
+  private selector: string = '[data-gallery]'
+  private licenseKey: string = import.meta.env.VITE_LIGHT_GALLERY_KEY
 
   constructor() {
     this.init()
   }
 
   private init() {
-    const galleryElements = document.querySelectorAll<HTMLElement>('[data-gallery]:not([data-gallery-initialized])')
+    const galleryElements = document.querySelectorAll<HTMLElement>(this.selector)
 
     galleryElements.forEach((element) => {
-      element.setAttribute('data-gallery-initialized', 'true')
-
       const gallery = lightGallery(element, {
-        licenseKey: import.meta.env.VITE_LIGHT_GALLERY_KEY,
+        licenseKey: this.licenseKey,
         speed: 500,
         mobileSettings: {
           controls: true,
