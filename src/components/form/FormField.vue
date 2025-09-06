@@ -4,6 +4,7 @@ interface IProps {
   type: string
   name: string
   placeholder: string
+  dataMask?: string
 }
 
 defineProps<IProps>()
@@ -17,6 +18,7 @@ defineProps<IProps>()
     <component
       :is="type === 'textarea' ? 'textarea' : 'input'"
       :id="id"
+      :data-mask="dataMask"
       :type="type"
       class="form-field__input"
       :class="type === 'textarea' ? 'form-field__input--textarea' : ''"
