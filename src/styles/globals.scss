@@ -1,14 +1,5 @@
 @use 'sass:math';
 
-body {
-  width: 100%;
-
-  .lock & {
-    overscroll-behavior: none;
-    touch-action: none;
-  }
-}
-
 #app {
   height: 100%;
 }
