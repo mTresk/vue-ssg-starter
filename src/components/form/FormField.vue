@@ -4,7 +4,7 @@ interface IProps {
   type: string
   name: string
   placeholder: string
-  dataMask?: string
+  dataMask?: boolean
 }
 
 defineProps<IProps>()
