@@ -1,8 +1,9 @@
 @use 'sass:math';
 
 body {
+  width: 100%;
+
   .lock & {
-    overflow: hidden;
     overscroll-behavior: none;
     touch-action: none;
   }

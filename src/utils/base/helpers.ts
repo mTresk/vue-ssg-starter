@@ -14,8 +14,8 @@ export function setHash(hash: string): void {
 }
 
 export function slideUp(target: HTMLElement, duration: number = 500, showmore: number = 0): void {
-  if (!target.classList.contains('_slide')) {
-    target.classList.add('_slide')
+  if (!target.classList.contains('slide')) {
+    target.classList.add('slide')
     target.style.transitionProperty = 'height, margin, padding'
     target.style.transitionDuration = `${duration}ms`
     target.style.height = `${target.offsetHeight}px`
@@ -38,8 +38,8 @@ export function slideUp(target: HTMLElement, duration: number = 500, showmore: n
       target.style.removeProperty('margin-bottom')
       target.style.removeProperty('transition-duration')
       target.style.removeProperty('transition-property')
-      target.classList.remove('_slide')
-      // Создаем событие
+      target.classList.remove('slide')
+
       document.dispatchEvent(
         new CustomEvent('slideUpDone', {
           detail: {
@@ -52,8 +52,8 @@ export function slideUp(target: HTMLElement, duration: number = 500, showmore: n
 }
 
 export function slideDown(target: HTMLElement, duration: number = 500, showmore: number = 0): void {
-  if (!target.classList.contains('_slide')) {
-    target.classList.add('_slide')
+  if (!target.classList.contains('slide')) {
+    target.classList.add('slide')
     target.hidden = false
     if (showmore) {
       target.style.removeProperty('height')
@@ -78,7 +78,7 @@ export function slideDown(target: HTMLElement, duration: number = 500, showmore:
       target.style.removeProperty('overflow')
       target.style.removeProperty('transition-duration')
       target.style.removeProperty('transition-property')
-      target.classList.remove('_slide')
+      target.classList.remove('slide')
       // Создаем событие
       document.dispatchEvent(
         new CustomEvent('slideDownDone', {
@@ -102,6 +102,8 @@ export function slideToggle(target: HTMLElement, duration: number = 500): void {
 // eslint-disable-next-line import/no-mutable-exports
 export let bodyLockStatus = true
 
+let scrollPosition = 0
+
 export function bodyUnlock(delay: number = 500) {
   const body = document.querySelector<HTMLBodyElement>('body')!
 
@@ -111,13 +113,18 @@ export function bodyUnlock(delay: number = 500) {
     setTimeout(() => {
       for (let index = 0; index < lockPadding.length; index++) {
         const el = lockPadding[index]
+
         if (el) {
           el.style.paddingRight = '0'
         }
       }
 
       body.style.paddingRight = '0'
+      body.style.position = ''
+      body.style.top = ''
       document.documentElement.classList.remove('lock')
+
+      window.scrollTo({ top: scrollPosition, behavior: 'instant' })
     }, delay)
 
     bodyLockStatus = false
@@ -134,6 +141,8 @@ export function bodyLock(delay: number = 500) {
   if (bodyLockStatus) {
     const lockPadding = document.querySelectorAll<HTMLElement>('[data-lp]')
 
+    scrollPosition = window.pageYOffset || document.documentElement.scrollTop
+
     for (let index = 0; index < lockPadding.length; index++) {
       const el = lockPadding[index]
 
@@ -143,6 +152,9 @@ export function bodyLock(delay: number = 500) {
     }
 
     body!.style.paddingRight = `${window.innerWidth - document.querySelector<HTMLElement>('.wrapper')!.offsetWidth}px`
+    body!.style.position = 'fixed'
+    body!.style.top = `-${scrollPosition}px`
+    body!.style.width = '100%'
     document.documentElement.classList.add('lock')
 
     bodyLockStatus = false
