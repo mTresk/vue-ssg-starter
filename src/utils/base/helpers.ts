@@ -154,7 +154,6 @@ export function bodyLock(delay: number = 500) {
     body!.style.paddingRight = `${window.innerWidth - document.querySelector<HTMLElement>('.wrapper')!.offsetWidth}px`
     body!.style.position = 'fixed'
     body!.style.top = `-${scrollPosition}px`
-    body!.style.width = '100%'
     document.documentElement.classList.add('lock')
 
     bodyLockStatus = false

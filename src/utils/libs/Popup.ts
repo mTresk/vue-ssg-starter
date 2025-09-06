@@ -10,6 +10,7 @@ export default class Popup {
 
   private boundHandlers: Map<Element, () => void> = new Map()
   private vkVideos: Map<string, string> = new Map()
+  private wasLocked: boolean = false
 
   constructor() {
     this.init()
@@ -22,6 +23,8 @@ export default class Popup {
     const dialog = document.querySelector<HTMLDialogElement>(`#${id}`)
 
     if (dialog) {
+      this.wasLocked = document.documentElement.classList.contains('lock')
+
       const vkCode = this.vkVideos.get(id)
 
       if (vkCode) {
@@ -30,7 +33,22 @@ export default class Popup {
 
       dialog.showModal()
       dialog.focus()
-      bodyLock()
+
+      const content = dialog.querySelector(this.selectors.content) as HTMLElement
+
+      if (content) {
+        content.style.animation = 'none'
+        content.style.transform = 'scale(0)'
+
+        requestAnimationFrame(() => {
+          content.style.animation = ''
+          content.style.transform = ''
+        })
+      }
+
+      if (!this.wasLocked) {
+        bodyLock()
+      }
     }
   }
 
@@ -41,9 +59,15 @@ export default class Popup {
     if (dialog) {
       this.cleanupVkVideo(dialog)
       dialog.setAttribute('closing', '')
-      dialog.close()
-      dialog.removeAttribute('closing')
-      bodyUnlock()
+
+      setTimeout(() => {
+        dialog.close()
+        dialog.removeAttribute('closing')
+      }, 500)
+
+      if (!this.wasLocked) {
+        bodyUnlock(500)
+      }
     }
   }
 
@@ -89,17 +113,23 @@ export default class Popup {
   private closeAll(): void {
     const openDialogs = document.querySelectorAll<HTMLDialogElement>('dialog[open]')
 
-    openDialogs.forEach((dialog) => {
-      if (dialog.id) {
-        this.cleanupVkVideo(dialog)
-        dialog.setAttribute('closing', '')
+    if (openDialogs.length > 0) {
+      openDialogs.forEach((dialog) => {
+        if (dialog.id) {
+          this.cleanupVkVideo(dialog)
+          dialog.setAttribute('closing', '')
 
-        setTimeout(() => {
-          dialog.close()
-          dialog.removeAttribute('closing')
-        }, 300)
+          setTimeout(() => {
+            dialog.close()
+            dialog.removeAttribute('closing')
+          }, 500)
+        }
+      })
+
+      if (!this.wasLocked) {
+        bodyUnlock(500)
       }
-    })
+    }
   }
 
   private addTriggerListeners(): void {
