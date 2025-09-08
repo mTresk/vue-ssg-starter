@@ -2,6 +2,7 @@ import type { ViteSSGOptions } from 'vite-ssg'
 import { fileURLToPath, URL } from 'node:url'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
+import { ViteImageOptimizer } from 'vite-plugin-image-optimizer'
 import devIndex from './plugins/dev-index'
 import minifyVendor from './plugins/minify-vendor'
 import svgSprite from './plugins/svg-sprite'
@@ -12,6 +13,9 @@ export default defineConfig({
     minifyVendor(),
     svgSprite(),
     devIndex(),
+    ViteImageOptimizer({
+      test: /\.(jpe?g|png|gif|tiff|webp|avif)$/i,
+    }),
   ],
   resolve: {
     alias: {
