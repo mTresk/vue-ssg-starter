@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+
 interface IProps {
   id: string
   type: string
@@ -7,7 +9,17 @@ interface IProps {
   dataMask?: boolean
 }
 
-defineProps<IProps>()
+const props = defineProps<IProps>()
+
+const attributes = computed(() => {
+  const attrs: Record<string, any> = {}
+
+  if (props.dataMask) {
+    attrs['data-mask'] = true
+  }
+
+  return attrs
+})
 </script>
 
 <template>
@@ -18,13 +30,13 @@ defineProps<IProps>()
     <component
       :is="type === 'textarea' ? 'textarea' : 'input'"
       :id="id"
-      :data-mask="dataMask"
       :type="type"
       class="form-field__input"
       :class="type === 'textarea' ? 'form-field__input--textarea' : ''"
       autocomplete="off"
       :name="name"
       :placeholder="placeholder"
+      v-bind="attributes"
     />
     <slot />
   </label>
