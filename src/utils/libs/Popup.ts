@@ -34,18 +34,6 @@ export default class Popup {
       dialog.showModal()
       dialog.focus()
 
-      const content = dialog.querySelector(this.selectors.content) as HTMLElement
-
-      if (content) {
-        content.style.animation = 'none'
-        content.style.transform = 'scale(0)'
-
-        requestAnimationFrame(() => {
-          content.style.animation = ''
-          content.style.transform = ''
-        })
-      }
-
       if (!this.wasLocked) {
         bodyLock()
       }
