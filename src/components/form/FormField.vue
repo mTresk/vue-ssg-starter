@@ -1,24 +1,29 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, useAttrs } from 'vue'
 
 interface IProps {
   id: string
   type: string
   name: string
   placeholder: string
-  dataMask?: boolean
 }
 
-const props = defineProps<IProps>()
+defineOptions({ inheritAttrs: false })
 
-const attributes = computed(() => {
-  const attrs: Record<string, any> = {}
+defineProps<IProps>()
 
-  if (props.dataMask) {
-    attrs['data-mask'] = true
-  }
+const attrs = useAttrs()
 
-  return attrs
+const dataAttrs = computed(() => {
+  return Object.fromEntries(
+    Object.entries(attrs).filter(([key]) => key.startsWith('data-')),
+  )
+})
+
+const rootAttrs = computed(() => {
+  return Object.fromEntries(
+    Object.entries(attrs).filter(([key]) => !key.startsWith('data-')),
+  )
 })
 </script>
 
@@ -26,6 +31,7 @@ const attributes = computed(() => {
   <label
     :for="id"
     class="form-field"
+    v-bind="rootAttrs"
   >
     <component
       :is="type === 'textarea' ? 'textarea' : 'input'"
@@ -36,7 +42,7 @@ const attributes = computed(() => {
       autocomplete="off"
       :name="name"
       :placeholder="placeholder"
-      v-bind="attributes"
+      v-bind="dataAttrs"
     />
     <slot />
   </label>
@@ -52,6 +58,10 @@ const attributes = computed(() => {
   cursor: text;
   border: rem(1) solid var(--color-gray);
   border-radius: rem(15);
+
+  &--select {
+    padding: 0;
+  }
 
   &__input {
     width: 100%;

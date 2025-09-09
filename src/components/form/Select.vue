@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed, useAttrs } from 'vue'
+
 interface IProps {
   name: string
   id: string
@@ -10,38 +12,59 @@ interface IProps {
   }[]
 }
 
+defineOptions({ inheritAttrs: false })
+
 defineProps<IProps>()
+
+const attrs = useAttrs()
+
+const dataAttrs = computed(() => {
+  return Object.fromEntries(
+    Object.entries(attrs).filter(([key]) => key.startsWith('data-')),
+  )
+})
+
+const rootAttrs = computed(() => {
+  return Object.fromEntries(
+    Object.entries(attrs).filter(([key]) => !key.startsWith('data-')),
+  )
+})
 </script>
 
 <template>
-  <select
-    :id="id"
-    data-select
-    :name="name"
-    :data-placeholder="placeholder"
-    :options="options"
+  <label
+    :for="id"
+    class="form-field form-field--select"
+    v-bind="rootAttrs"
   >
-    <option
-      v-for="option in options"
-      :key="option.value"
-      :value="option.value"
-      :selected="option.selected"
+    <select
+      :id="id"
+      data-select
+      :name="name"
+      :data-placeholder="placeholder"
+      :options="options"
+      v-bind="dataAttrs"
     >
-      {{ option.label }}
-    </option>
-  </select>
+      <option
+        v-for="option in options"
+        :key="option.value"
+        :value="option.value"
+        :selected="option.selected"
+      >
+        {{ option.label }}
+      </option>
+    </select>
+  </label>
 </template>
 
 <style lang="scss">
 .nice-select {
   position: relative;
-  padding: rem(25);
-  font-size: rem(14);
-  line-height: 145%;
+  width: 100%;
+  padding: rem(15) rem(20);
   white-space: nowrap;
   cursor: pointer;
-  background-color: var(--color-gray);
-  border-radius: rem(20);
+  border-radius: rem(15);
 
   &::after {
     position: absolute;
@@ -51,7 +74,7 @@ defineProps<IProps>()
     height: rem(24);
     pointer-events: none;
     content: '';
-    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11.9995 15.0006L7.75684 10.758L9.17106 9.34375L11.9995 12.1722L14.8279 9.34375L16.2421 10.758L11.9995 15.0006Z' fill='white'/%3E%3C/svg%3E%0A");
+    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11.9995 15.0006L7.75684 10.758L9.17106 9.34375L11.9995 12.1722L14.8279 9.34375L16.2421 10.758L11.9995 15.0006Z' fill='black'/%3E%3C/svg%3E%0A");
     background-size: cover;
     transform: translateY(-50%);
     transition: all 0.3s ease-in-out;

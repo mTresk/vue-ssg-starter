@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed, useAttrs } from 'vue'
+
 interface IProps {
   id: string
   name: string
@@ -6,18 +8,36 @@ interface IProps {
   checked?: boolean
 }
 
+defineOptions({ inheritAttrs: false })
+
 defineProps<IProps>()
+
+const attrs = useAttrs()
+
+const dataAttrs = computed(() => {
+  return Object.fromEntries(
+    Object.entries(attrs).filter(([key]) => key.startsWith('data-')),
+  )
+})
+
+const rootAttrs = computed(() => {
+  return Object.fromEntries(
+    Object.entries(attrs).filter(([key]) => !key.startsWith('data-')),
+  )
+})
 </script>
 
 <template>
   <label
     class="checkbox"
+    v-bind="rootAttrs"
     :for="id"
   >
     <input
       :id="id"
       class="checkbox__input"
       type="checkbox"
+      v-bind="dataAttrs"
       :value="value"
       :checked="checked"
     >
