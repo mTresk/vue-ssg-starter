@@ -1,67 +1,83 @@
 {
   "Rating": {
-    "scope": "html, blade, vue",
+    "scope": "html, blade",
     "prefix": "rating",
     "body": [
       "<div class=\"rating rating_set\">\n\t<div class=\"rating__body\">\n\t\t<div class=\"rating__active\"></div>\n\t\t<div class=\"rating__items\">\n\t\t\t<input type=\"radio\" class=\"rating__item\" value=\"1\" name=\"rating\">\n\t\t\t<input type=\"radio\" class=\"rating__item\" value=\"2\" name=\"rating\">\n\t\t\t<input type=\"radio\" class=\"rating__item\" value=\"3\" name=\"rating\">\n\t\t\t<input type=\"radio\" class=\"rating__item\" value=\"4\" name=\"rating\">\n\t\t\t<input type=\"radio\" class=\"rating__item\" value=\"5\" name=\"rating\">\n\t\t</div>\n\t</div>\n\t<div class=\"rating__value\">3.6</div>\n</div>"
     ]
   },
   "Spoilers": {
-    "scope": "html, blade, vue",
+    "scope": "html, blade",
     "prefix": "spoilers",
     "body": [
       "<div data-spoilers class=\"spoilers\">\n\t<div class=\"spoilers__item\">\n\t\t<button type=\"button\" data-spoiler class=\"spoilers__title\">Заголовок спойлера</button>\n\t\t<div class=\"spoilers__body\">Контент спойлера</div>\n\t</div>\n</div>"
     ]
   },
   "Tabs": {
-    "scope": "html, blade, vue",
+    "scope": "html, blade",
     "prefix": "tabs",
     "body": [
       "<div data-tabs class=\"${1:tabs}\">\n\t<nav data-tabs-titles class=\"${1:tabs}__navigation\">\n\t\t<button type=\"button\" class=\"${1:tabs}__title tab-active\">Таб №1</button>\n\t\t<button type=\"button\" class=\"${1:tabs}__title\">Таб №2</button>\n\t\t<button type=\"button\" class=\"${1:tabs}__title\">Таб №3</button>\n\t</nav>\n\t<div data-tabs-body class=\"${1:tabs}__content\">\n\t\t<div class=\"${1:tabs}__body\">\n\t\t\tКонтент первого таба\n\t\t</div>\n\t\t<div class=\"${1:tabs}__body\">\n\t\t\tКонтент второго таба\n\t\t</div>\n\t\t<div class=\"${1:tabs}__body\">\n\t\t\tКонтент третьего таба\n\t\t</div>\n\t</div>\n</div>"
     ]
   },
   "Show More": {
-    "scope": "html, blade, vue",
+    "scope": "html, blade",
     "prefix": "showmore",
     "body": [
       "<div data-showmore class=\"${1:block}\">\n\t<div data-showmore-content class=\"${1:block}__content\"></div>\n\t<button hidden data-showmore-button type=\"button\" class=\"${1:block}__more\"><span>Показать еще</span><span>Скрыть</span></button>\n</div>"
     ]
   },
   "Swiper": {
-    "scope": "html, blade, vue",
+    "scope": "html, blade",
     "prefix": "swiper",
     "body": [
       "<div class=\"${1:имя-блока}__slider swiper\">\n\t<div class=\"${1:имя-блока}__wrapper swiper-wrapper\">\n\t\t<div class=\"${1:имя-блока}__slide swiper-slide\"></div>\n\t</div>\n</div>"
     ]
   },
   "Swiper Navigation": {
-    "scope": "html, blade, vue",
+    "scope": "html, blade",
     "prefix": "swnav",
     "body": [
       "<nav class=\"${1:имя-блока}__navigation\">\n\t<button aria-label=\"Назад\" type=\"button\" class=\"${1:имя-блока}__button ${1:имя-блока}__button--prev\">\n\t\t<svg width=\"18\" height=\"18\" viewBox=\"0 0 18 18\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n\t\t\t<path d=\"M9 8.25H15V9.75H9V15L3 9L9 3L9 8.25Z\" fill=\"#46634C\" />\n\t\t</svg>\n\t</button>\n\t<button aria-label=\"Вперед\" type=\"button\" class=\"${1:имя-блока}__button ${1:имя-блока}__button--next\">\n\t\t<svg width=\"18\" height=\"18\" viewBox=\"0 0 18 18\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n\t\t\t<path d=\"M9 9.75H3V8.25H9V3L15 9L9 15V9.75Z\" fill=\"#46634C\" />\n\t\t</svg>\n\t</button>\n</nav>"
     ]
   },
   "Add tooltip": {
-    "scope": "html, blade, vue",
+    "scope": "html, blade",
     "prefix": "tip",
     "body": ["data-tippy-content=\"Подсказка\""]
   },
   "Add dynamic adapt": {
-    "scope": "html, blade, vue",
+    "scope": "html, blade",
     "prefix": "da",
     "body": ["data-da=\".${1:имя блока}, 768\""],
     "description": "Добавляет атрибут динамичного адаптива"
   },
   "menu": {
-    "scope": "html, blade, vue",
+    "scope": "html, blade",
     "prefix": "menu",
     "body": "<div class=\"header__menu menu\">\n\t<nav class=\"menu__body\">\n\t\t<ul class=\"menu__list\">\n\t\t\t<li class=\"menu__item\"><a href=\"\" class=\"menu__link\"></a></li>\n\t\t</ul>\n\t</nav>\n</div>",
     "description": "menu"
   },
   "Header Button": {
-    "scope": "html, blade, vue",
+    "scope": "html, blade",
     "prefix": "hb",
     "body": ["<button data-menu-button aria-label=\"Меню\" type=\"button\" class=\"header__button\">\n\t<span class=\"menu-icon\"><span></span></span>\n</button>"],
     "description": "Header button"
+  },
+  "Picture": {
+    "scope": "html, blade",
+    "prefix": "pict",
+    "body": [
+      "<Picture",
+      "\tsrc=\"${1:@/assets/images/photo.jpg}\"",
+      "\talt=\"${2:}\"",
+      "\twidth=\"${3:800}\"",
+      "\theight=\"${4:400}\"",
+      "\tloading=\"${5|lazy,eager|}\"",
+      "\t:quality=\"${6:85}\"",
+      "\t:formats=\"${7:['webp', 'avif']}\"",
+      "/>"
+    ],
+    "description": "Оптимизированное изображение с поддержкой современных форматов"
   }
 }

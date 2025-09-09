@@ -39,7 +39,7 @@ export default defineConfig({
             return `assets/fonts/[name]-[hash][extname]`
           }
 
-          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extention)) {
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico|webp|avif/i.test(extention)) {
             return `assets/images/[name]-[hash][extname]`
           }
 

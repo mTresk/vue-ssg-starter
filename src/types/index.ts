@@ -65,6 +65,14 @@ export interface IResponsiveAdapterObject {
 
 export type TResponsiveAdapterType = 'min' | 'max'
 
+export interface OptimizedImagePaths {
+  webp?: string
+  webp2x?: string
+  avif?: string
+  avif2x?: string
+  fallback: string
+}
+
 declare global {
   interface Window {
     logger: boolean | undefined
