@@ -14,8 +14,6 @@ defineProps<IProps>()
     :id="id"
     class="popup"
     :class="{ 'popup--video': isVideo }"
-    aria-dialog="true"
-    role="dialog"
   >
     <div
       class="popup__wrapper"
