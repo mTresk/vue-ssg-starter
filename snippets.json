@@ -3,65 +3,337 @@
     "scope": "html, blade",
     "prefix": "rating",
     "body": [
-      "<div class=\"rating rating_set\">\n\t<div class=\"rating__body\">\n\t\t<div class=\"rating__active\"></div>\n\t\t<div class=\"rating__items\">\n\t\t\t<input type=\"radio\" class=\"rating__item\" value=\"1\" name=\"rating\">\n\t\t\t<input type=\"radio\" class=\"rating__item\" value=\"2\" name=\"rating\">\n\t\t\t<input type=\"radio\" class=\"rating__item\" value=\"3\" name=\"rating\">\n\t\t\t<input type=\"radio\" class=\"rating__item\" value=\"4\" name=\"rating\">\n\t\t\t<input type=\"radio\" class=\"rating__item\" value=\"5\" name=\"rating\">\n\t\t</div>\n\t</div>\n\t<div class=\"rating__value\">3.6</div>\n</div>"
+      "<div class=\"rating rating_set\">",
+      "\t<div class=\"rating__body\">",
+      "\t\t<div class=\"rating__active\"></div>",
+      "\t\t<div class=\"rating__items\">",
+      "\t\t\t<input",
+      "\t\t\t\ttype=\"radio\"",
+      "\t\t\t\tclass=\"rating__item\"",
+      "\t\t\t\tvalue=\"1\"",
+      "\t\t\t\tname=\"rating\"",
+      "\t\t\t>",
+      "\t\t\t<input",
+      "\t\t\t\ttype=\"radio\"",
+      "\t\t\t\tclass=\"rating__item\"",
+      "\t\t\t\tvalue=\"2\"",
+      "\t\t\t\tname=\"rating\"",
+      "\t\t\t>",
+      "\t\t\t<input",
+      "\t\t\t\ttype=\"radio\"",
+      "\t\t\t\tclass=\"rating__item\"",
+      "\t\t\t\tvalue=\"3\"",
+      "\t\t\t\tname=\"rating\"",
+      "\t\t\t>",
+      "\t\t\t<input",
+      "\t\t\t\ttype=\"radio\"",
+      "\t\t\t\tclass=\"rating__item\"",
+      "\t\t\t\tvalue=\"4\"",
+      "\t\t\t\tname=\"rating\"",
+      "\t\t\t>",
+      "\t\t\t<input",
+      "\t\t\t\ttype=\"radio\"",
+      "\t\t\t\tclass=\"rating__item\"",
+      "\t\t\t\tvalue=\"5\"",
+      "\t\t\t\tname=\"rating\"",
+      "\t\t\t>",
+      "\t\t</div>",
+      "\t</div>",
+      "\t<div class=\"rating__value\">3.6</div>",
+      "</div>"
     ]
   },
   "Spoilers": {
     "scope": "html, blade",
     "prefix": "spoilers",
     "body": [
-      "<div data-spoilers class=\"spoilers\">\n\t<div class=\"spoilers__item\">\n\t\t<button type=\"button\" data-spoiler class=\"spoilers__title\">Заголовок спойлера</button>\n\t\t<div class=\"spoilers__body\">Контент спойлера</div>\n\t</div>\n</div>"
+      "<div",
+      "\tdata-spoilers",
+      "\tclass=\"spoilers\"",
+      ">",
+      "\t<div class=\"spoilers__item\">",
+      "\t\t<button",
+      "\t\t\ttype=\"button\"",
+      "\t\t\tdata-spoiler",
+      "\t\t\tclass=\"spoilers__title\"",
+      "\t\t>",
+      "\t\t\t${1:Заголовок спойлера}",
+      "\t\t</button>",
+      "\t\t<div class=\"spoilers__body\">",
+      "\t\t\t${2:Контент спойлера}",
+      "\t\t</div>",
+      "\t</div>",
+      "</div>"
     ]
   },
   "Tabs": {
     "scope": "html, blade",
     "prefix": "tabs",
     "body": [
-      "<div data-tabs class=\"${1:tabs}\">\n\t<nav data-tabs-titles class=\"${1:tabs}__navigation\">\n\t\t<button type=\"button\" class=\"${1:tabs}__title tab-active\">Таб №1</button>\n\t\t<button type=\"button\" class=\"${1:tabs}__title\">Таб №2</button>\n\t\t<button type=\"button\" class=\"${1:tabs}__title\">Таб №3</button>\n\t</nav>\n\t<div data-tabs-body class=\"${1:tabs}__content\">\n\t\t<div class=\"${1:tabs}__body\">\n\t\t\tКонтент первого таба\n\t\t</div>\n\t\t<div class=\"${1:tabs}__body\">\n\t\t\tКонтент второго таба\n\t\t</div>\n\t\t<div class=\"${1:tabs}__body\">\n\t\t\tКонтент третьего таба\n\t\t</div>\n\t</div>\n</div>"
+      "<div",
+      "\tdata-tabs",
+      "\tclass=\"${1:tabs}\"",
+      ">",
+      "\t<nav",
+      "\t\tdata-tabs-titles",
+      "\t\tclass=\"${1:tabs}__navigation\"",
+      "\t>",
+      "\t\t<button",
+      "\t\t\ttype=\"button\"",
+      "\t\t\tclass=\"${1:tabs}__title tab-active\"",
+      "\t\t>",
+      "\t\t\t${2:Таб №1}",
+      "\t\t</button>",
+      "\t\t<button",
+      "\t\t\ttype=\"button\"",
+      "\t\t\tclass=\"${1:tabs}__title\"",
+      "\t\t>",
+      "\t\t\t${3:Таб №2}",
+      "\t\t</button>",
+      "\t\t<button",
+      "\t\t\ttype=\"button\"",
+      "\t\t\tclass=\"${1:tabs}__title\"",
+      "\t\t>",
+      "\t\t\t${4:Таб №3}",
+      "\t\t</button>",
+      "\t</nav>",
+      "\t<div",
+      "\t\tdata-tabs-body",
+      "\t\tclass=\"${1:tabs}__content\"",
+      "\t>",
+      "\t\t<div class=\"${1:tabs}__body\">",
+      "\t\t\t${5:Контент первого таба}",
+      "\t\t</div>",
+      "\t\t<div class=\"${1:tabs}__body\">",
+      "\t\t\t${6:Контент второго таба}",
+      "\t\t</div>",
+      "\t\t<div class=\"${1:tabs}__body\">",
+      "\t\t\t${7:Контент третьего таба}",
+      "\t\t</div>",
+      "\t</div>",
+      "</div>"
     ]
   },
   "Show More": {
     "scope": "html, blade",
     "prefix": "showmore",
     "body": [
-      "<div data-showmore class=\"${1:block}\">\n\t<div data-showmore-content class=\"${1:block}__content\"></div>\n\t<button hidden data-showmore-button type=\"button\" class=\"${1:block}__more\"><span>Показать еще</span><span>Скрыть</span></button>\n</div>"
+      "<div",
+      "\tdata-showmore",
+      "\tclass=\"${1:block}\"",
+      ">",
+      "\t<div",
+      "\t\tdata-showmore-content",
+      "\t\tclass=\"${1:block}__content\"",
+      "\t>",
+      "\t\t${2:}",
+      "\t</div>",
+      "\t<button",
+      "\t\thidden",
+      "\t\tdata-showmore-button",
+      "\t\ttype=\"button\"",
+      "\t\tclass=\"${1:block}__more\"",
+      "\t>",
+      "\t\t<span>Показать еще</span>",
+      "\t\t<span>Скрыть</span>",
+      "\t</button>",
+      "</div>"
     ]
   },
   "Swiper": {
     "scope": "html, blade",
     "prefix": "swiper",
     "body": [
-      "<div class=\"${1:имя-блока}__slider swiper\">\n\t<div class=\"${1:имя-блока}__wrapper swiper-wrapper\">\n\t\t<div class=\"${1:имя-блока}__slide swiper-slide\"></div>\n\t</div>\n</div>"
+      "<div class=\"${1:имя-блока}__slider swiper\">",
+      "\t<div class=\"${1:имя-блока}__wrapper swiper-wrapper\">",
+      "\t\t<div class=\"${1:имя-блока}__slide swiper-slide\">",
+      "\t\t\t${2:}",
+      "\t\t</div>",
+      "\t</div>",
+      "</div>"
     ]
   },
   "Swiper Navigation": {
     "scope": "html, blade",
     "prefix": "swnav",
     "body": [
-      "<nav class=\"${1:имя-блока}__navigation\">\n\t<button aria-label=\"Назад\" type=\"button\" class=\"${1:имя-блока}__button ${1:имя-блока}__button--prev\">\n\t\t<svg width=\"18\" height=\"18\" viewBox=\"0 0 18 18\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n\t\t\t<path d=\"M9 8.25H15V9.75H9V15L3 9L9 3L9 8.25Z\" fill=\"#46634C\" />\n\t\t</svg>\n\t</button>\n\t<button aria-label=\"Вперед\" type=\"button\" class=\"${1:имя-блока}__button ${1:имя-блока}__button--next\">\n\t\t<svg width=\"18\" height=\"18\" viewBox=\"0 0 18 18\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n\t\t\t<path d=\"M9 9.75H3V8.25H9V3L15 9L9 15V9.75Z\" fill=\"#46634C\" />\n\t\t</svg>\n\t</button>\n</nav>"
+      "<nav class=\"${1:имя-блока}__navigation\">",
+      "\t<button",
+      "\t\taria-label=\"Назад\"",
+      "\t\ttype=\"button\"",
+      "\t\tclass=\"${1:имя-блока}__button ${1:имя-блока}__button--prev\"",
+      "\t>",
+      "\t\t<svg",
+      "\t\t\twidth=\"18\"",
+      "\t\t\theight=\"18\"",
+      "\t\t\tviewBox=\"0 0 18 18\"",
+      "\t\t\tfill=\"none\"",
+      "\t\t\txmlns=\"http://www.w3.org/2000/svg\"",
+      "\t\t>",
+      "\t\t\t<path d=\"M9 8.25H15V9.75H9V15L3 9L9 3L9 8.25Z\" fill=\"#46634C\" />",
+      "\t\t</svg>",
+      "\t</button>",
+      "\t<button",
+      "\t\taria-label=\"Вперед\"",
+      "\t\ttype=\"button\"",
+      "\t\tclass=\"${1:имя-блока}__button ${1:имя-блока}__button--next\"",
+      "\t>",
+      "\t\t<svg",
+      "\t\t\twidth=\"18\"",
+      "\t\t\theight=\"18\"",
+      "\t\t\tviewBox=\"0 0 18 18\"",
+      "\t\t\tfill=\"none\"",
+      "\t\t\txmlns=\"http://www.w3.org/2000/svg\"",
+      "\t\t>",
+      "\t\t\t<path d=\"M9 9.75H3V8.25H9V3L15 9L9 15V9.75Z\" fill=\"#46634C\" />",
+      "\t\t</svg>",
+      "\t</button>",
+      "</nav>"
     ]
   },
   "Add tooltip": {
     "scope": "html, blade",
     "prefix": "tip",
-    "body": ["data-tippy-content=\"Подсказка\""]
+    "body": ["data-tippy-content=\"${1:Подсказка}\""]
   },
   "Add dynamic adapt": {
     "scope": "html, blade",
     "prefix": "da",
-    "body": ["data-da=\".${1:имя блока}, 768\""],
+    "body": ["data-da=\".${1:имя блока}, ${2:768}\""],
     "description": "Добавляет атрибут динамичного адаптива"
+  },
+  "Add input tag": {
+    "scope": "html, blade",
+    "prefix": "inp",
+    "body": [
+      "<input",
+      "\tautocomplete=\"off\"",
+      "\ttype=\"text\"",
+      "\tname=\"form[]\"",
+      "\tplaceholder=\"${1:}\"",
+      ">"
+    ]
+  },
+  "Add container": {
+    "scope": "html, blade",
+    "prefix": "cnt",
+    "body": [
+      "<div class=\"${1:название блока}__container\">",
+      "\t${2:}",
+      "</div>"
+    ]
+  },
+  "Textarea": {
+    "scope": "html, blade",
+    "prefix": "txta",
+    "body": [
+      "<textarea",
+      "\tautocomplete=\"off\"",
+      "\tname=\"form[]\"",
+      "\tplaceholder=\"${1:}\"",
+      "></textarea>"
+    ],
+    "description": "txta"
+  },
+  "Radio buttons": {
+    "scope": "html, blade",
+    "prefix": "opt",
+    "body": [
+      "<div class=\"${1:options}\">",
+      "\t<Radio",
+      "\t\tclass=\"${1:options}__item\"",
+      "\t\tname=\"${2:option}\"",
+      "\t\tvalue=\"1\"",
+      "\t>",
+      "\t\t${3:Пункт №1}",
+      "\t</Radio>",
+      "\t<Radio",
+      "\t\tclass=\"${1:options}__item\"",
+      "\t\tname=\"${2:option}\"",
+      "\t\tvalue=\"2\"",
+      "\t>",
+      "\t\t${4:Пункт №2}",
+      "\t</Radio>",
+      "\t<Radio",
+      "\t\tclass=\"${1:options}__item\"",
+      "\t\tname=\"${2:option}\"",
+      "\t\tvalue=\"3\"",
+      "\t>",
+      "\t\t${5:Пункт №3}",
+      "\t</Radio>",
+      "</div>"
+    ],
+    "description": "Группа радиокнопок с новыми Radio компонентами"
+  },
+  "Button": {
+    "scope": "html, blade",
+    "prefix": "btn",
+    "body": [
+      "<button",
+      "\ttype=\"button\"",
+      "\tclass=\"${1:класс}__button\"",
+      ">",
+      "\t${2:текст}",
+      "</button>"
+    ],
+    "description": ""
   },
   "menu": {
     "scope": "html, blade",
     "prefix": "menu",
-    "body": "<div class=\"header__menu menu\">\n\t<nav class=\"menu__body\">\n\t\t<ul class=\"menu__list\">\n\t\t\t<li class=\"menu__item\"><a href=\"\" class=\"menu__link\"></a></li>\n\t\t</ul>\n\t</nav>\n</div>",
+    "body": [
+      "<div class=\"header__menu menu\">",
+      "\t<nav class=\"menu__body\">",
+      "\t\t<ul class=\"menu__list\">",
+      "\t\t\t<li class=\"menu__item\">",
+      "\t\t\t\t<a",
+      "\t\t\t\t\thref=\"${1:}\"",
+      "\t\t\t\t\tclass=\"menu__link\"",
+      "\t\t\t\t>",
+      "\t\t\t\t\t${2:}",
+      "\t\t\t\t</a>",
+      "\t\t\t</li>",
+      "\t\t</ul>",
+      "\t</nav>",
+      "</div>"
+    ],
     "description": "menu"
+  },
+  "Image": {
+    "scope": "html, blade",
+    "prefix": "img",
+    "body": [
+      "<img",
+      "\tsrc=\"/images/${1:}\"",
+      "\talt=\"${2:}\"",
+      "\twidth=\"${3:100}\"",
+      "\theight=\"${4:100}\"",
+      "\tloading=\"lazy\"",
+      ">"
+    ],
+    "description": "img"
+  },
+  "sp": {
+    "scope": "html, blade",
+    "prefix": "sp",
+    "body": "// ========================================================================================================================================================\n$1",
+    "description": "sp"
   },
   "Header Button": {
     "scope": "html, blade",
     "prefix": "hb",
-    "body": ["<button data-menu-button aria-label=\"Меню\" type=\"button\" class=\"header__button\">\n\t<span class=\"menu-icon\"><span></span></span>\n</button>"],
+    "body": [
+      "<button",
+      "\tdata-menu-button",
+      "\taria-label=\"Меню\"",
+      "\ttype=\"button\"",
+      "\tclass=\"header__button\"",
+      ">",
+      "\t<span class=\"menu-icon\">",
+      "\t\t<span></span>",
+      "\t</span>",
+      "</button>"
+    ],
     "description": "Header button"
   },
   "Picture": {
@@ -79,5 +351,105 @@
       "/>"
     ],
     "description": "Оптимизированное изображение с поддержкой современных форматов"
+  },
+  "Icon": {
+    "scope": "html, blade",
+    "prefix": "icon",
+    "body": [
+      "<Icon",
+      "\tname=\"${1:close}\"",
+      "\tsize=\"${2:24}\"",
+      "/>"
+    ],
+    "description": "SVG иконка из папки assets/icons"
+  },
+  "Checkbox": {
+    "scope": "html, blade",
+    "prefix": "chk",
+    "body": [
+      "<Checkbox",
+      "\tid=\"${1:checkbox}\"",
+      "\tname=\"${2:checkbox}\"",
+      "\tvalue=\"${3:1}\"",
+      ">",
+      "\t${4:Текст чекбокса}",
+      "</Checkbox>"
+    ],
+    "description": "Компонент чекбокса"
+  },
+  "FormField": {
+    "scope": "html, blade",
+    "prefix": "ff",
+    "body": [
+      "<FormField",
+      "\tid=\"${2:name}\"",
+      "\ttype=\"${3|text,textarea,tel,password,email|}\"",
+      "\tname=\"${4:name}\"",
+      "\tplaceholder=\"${5:Введите имя}\"",
+      "/>"
+    ],
+    "description": "Поле формы с лейблом"
+  },
+  "Quantity": {
+    "scope": "html, blade",
+    "prefix": "qty",
+    "body": [
+      "<Quantity",
+      "\tname=\"${1:quantity}\"",
+      "/>"
+    ],
+    "description": "Компонент количества с кнопками +/-"
+  },
+  "Radio": {
+    "scope": "html, blade",
+    "prefix": "radio",
+    "body": [
+      "<Radio",
+      "\tname=\"${1:option}\"",
+      "\tvalue=\"${2:1}\"",
+      ">",
+      "\t${3:Текст радиокнопки}",
+      "</Radio>"
+    ],
+    "description": "Компонент радиокнопки"
+  },
+  "Range": {
+    "scope": "html, blade",
+    "prefix": "range",
+    "body": [
+      "<Range",
+      "\tmin=\"${3:0}\"",
+      "\tmax=\"${4:100}\"",
+      "/>"
+    ],
+    "description": "Слайдер диапазона значений"
+  },
+  "Select": {
+    "scope": "html, blade",
+    "prefix": "sel",
+    "body": [
+      "<Select",
+      "\tid=\"${1:select}\"",
+      "\tname=\"${2:select}\"",
+      "\tplaceholder=\"${3:Выберите опцию}\"",
+      "\t:options=\"${4:[]}\"",
+      "/>"
+    ],
+    "description": "Кастомный селект"
+  },
+  "HTML Select": {
+    "scope": "html, blade",
+    "prefix": "select",
+    "body": [
+      "<select",
+      "\tid=\"${1:select}\"",
+      "\tname=\"${2:select}\"",
+      ">",
+      "\t<option value=\"\">${3:Выберите опцию}</option>",
+      "\t<option value=\"${4:1}\">${5:Опция 1}</option>",
+      "\t<option value=\"${6:2}\">${7:Опция 2}</option>",
+      "</select>"
+    ],
+    "description": "Обычный HTML select"
   }
 }
