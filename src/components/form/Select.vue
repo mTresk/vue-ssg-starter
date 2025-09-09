@@ -15,9 +15,11 @@ defineProps<IProps>()
 
 <template>
   <select
+    :id="id"
     data-select
     :name="name"
     :data-placeholder="placeholder"
+    :options="options"
   >
     <option
       v-for="option in options"

@@ -21,7 +21,7 @@ defineProps<IProps>()
       :value="value"
       :checked="checked"
     >
-    <div class="checkbox__text"><slot /></div>
+    <span class="checkbox__text"><slot /></span>
   </label>
 </template>
 
