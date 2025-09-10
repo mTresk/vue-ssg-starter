@@ -2,13 +2,6 @@
 import { computed } from 'vue'
 import { resolveSourcePath } from '@/utils/base/helpers'
 
-const props = withDefaults(defineProps<IProps>(), {
-  alt: '',
-  loading: 'lazy',
-  quality: 90,
-  formats: () => ['webp'],
-})
-
 interface IProps {
   src: string
   alt?: string
@@ -19,6 +12,13 @@ interface IProps {
   formats?: string[]
   class?: string
 }
+
+const props = withDefaults(defineProps<IProps>(), {
+  alt: '',
+  loading: 'lazy',
+  quality: 90,
+  formats: () => ['webp'],
+})
 
 const optimizationAttrs = computed(() => {
   const attrs: Record<string, string> = {}
