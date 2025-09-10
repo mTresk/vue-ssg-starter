@@ -451,5 +451,18 @@
       "</select>"
     ],
     "description": "Обычный HTML select"
+  },
+  "Accordion": {
+    "scope": "html, blade",
+    "prefix": "acc",
+    "body": [
+      "<AccordionRoot class=\"accordions\">",
+      "\t<Accordion class=\"accordions__item\">",
+      "\t\t<template #header>Заголовок аккордеона</template>",
+      "\t\t<template #content>Содержимое аккордеона</template>",
+      "\t</Accordion>",
+      "</AccordionRoot>"
+    ],
+    "description": "Аккордеон"
   }
 }
