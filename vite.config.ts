@@ -4,12 +4,16 @@ import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer'
 import devIndex from './plugins/dev-index'
+import injectScripts from './plugins/inject-scripts'
 import minifyVendor from './plugins/minify-vendor'
 import svgSprite from './plugins/svg-sprite'
 
 export default defineConfig({
   plugins: [
     vue(),
+    injectScripts({
+      enabled: true,
+    }),
     minifyVendor(),
     svgSprite(),
     devIndex(),

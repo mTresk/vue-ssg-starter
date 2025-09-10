@@ -246,46 +246,6 @@ async function processDataOptimization(content: string): Promise<string> {
   return $.html()
 }
 
-async function processAppJsFile(distPath: string) {
-  const assetsPath = join(distPath, 'assets')
-
-  // Создаем папку assets если её нет
-  if (!existsSync(assetsPath)) {
-    mkdirSync(assetsPath, { recursive: true })
-  }
-
-  // Создаем файл custom-scripts.js
-  const customScriptsPath = join(assetsPath, 'custom-scripts.js')
-  const sourceCustomScriptsPath = join(process.cwd(), 'src', 'assets', 'custom-scripts.js')
-
-  let customScriptsContent = ''
-
-  if (existsSync(sourceCustomScriptsPath)) {
-    customScriptsContent = readFileSync(sourceCustomScriptsPath, 'utf8')
-  }
-
-  writeFileSync(customScriptsPath, customScriptsContent, 'utf8')
-  console.warn(`Created custom-scripts.js in assets folder`)
-
-  // Находим и обрабатываем файл app.js
-  const items = readdirSync(assetsPath, { withFileTypes: true })
-
-  for (const item of items) {
-    if (item.isFile() && item.name.startsWith('app-') && item.name.endsWith('.js')) {
-      const appJsPath = join(assetsPath, item.name)
-      const content = readFileSync(appJsPath, 'utf8')
-
-      // Добавляем импорт custom-scripts.js в начало файла
-      const contentWithCustomScripts = `import './custom-scripts.js';\n${content}`
-
-      writeFileSync(appJsPath, contentWithCustomScripts, 'utf8')
-
-      console.warn(`Post-processed JS: ${item.name}`)
-      break // Находим только первый файл app.js
-    }
-  }
-}
-
 async function postProcessDistFiles() {
   const distPath = join(process.cwd(), 'dist')
 
@@ -294,9 +254,6 @@ async function postProcessDistFiles() {
 
     return
   }
-
-  // Создаем файл custom-scripts.js и обрабатываем app.js
-  await processAppJsFile(distPath)
 
   try {
     const beautifyHtml = beautify.html
