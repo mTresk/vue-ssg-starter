@@ -5,10 +5,11 @@ interface InjectScriptsOptions {
   enabled?: boolean
   fileName?: string
   content?: string
+  position?: 'start' | 'end'
 }
 
 export default function injectScripts(options: InjectScriptsOptions = {}): Plugin {
-  const { enabled = false, fileName = 'custom-scripts.js', content = '' } = options
+  const { enabled = false, fileName = 'custom-scripts.js', content = '', position = 'start' } = options
 
   if (!enabled) {
     return {} as Plugin
@@ -42,7 +43,12 @@ export default function injectScripts(options: InjectScriptsOptions = {}): Plugi
       const chunk = appJsChunk as OutputChunk
       const originalCode = chunk.code
 
-      chunk.code = `import './${fileName}';\n${originalCode}`
+      if (position === 'end') {
+        chunk.code = `${originalCode}\nimport './${fileName}';`
+      }
+      else {
+        chunk.code = `import './${fileName}';\n${originalCode}`
+      }
     },
   }
 }
