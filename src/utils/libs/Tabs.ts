@@ -5,6 +5,7 @@ export default class Tabs {
   private tabs: HTMLElement[]
   private tabsActiveHash: string[] = []
   private mdQueriesArray: IMediaQueryResult[] | null = null
+  private currentTabsBlock: HTMLElement | null = null
 
   private dataSelectors = {
     root: '[data-tabs]',
@@ -49,6 +50,8 @@ export default class Tabs {
         tabsBlock.addEventListener('click', this.setTabsAction.bind(this))
       }
 
+      tabsBlock.addEventListener('keydown', this.onKeyDown)
+      tabsBlock.addEventListener('focusin', this.handleTabFocus)
       tabsBlock.classList.add(this.classSelectors.init)
       tabsBlock.setAttribute('data-tabs-index', String(index))
       this.initTabs(tabsBlock)
@@ -89,13 +92,11 @@ export default class Tabs {
 
       const tabsTitleItems = Array.from(tabsTitleItemsNodeList).filter((item) => {
         return item.closest(this.dataSelectors.root) === tabsMediaItem
-      },
-      )
+      })
 
       const tabsContentItems = Array.from(tabsContentItemsNodeList).filter((item) => {
         return item.closest(this.dataSelectors.root) === tabsMediaItem
-      },
-      )
+      })
 
       tabsContentItems.forEach((tabsContentItem, index) => {
         const titleItem = tabsTitleItems[index]
@@ -145,8 +146,13 @@ export default class Tabs {
           tabsTitles[index].setAttribute('data-tabs-title', '')
           tabsContentItem.setAttribute('data-tabs-item', '')
 
+          const isActive = tabsTitles[index].classList.contains(this.classSelectors.active)
+
+          tabsTitles[index].setAttribute('tabindex', isActive ? '0' : '-1')
+
           if (tabsActiveHashBlock && this.tabsActiveHash[1] && index === Number.parseInt(this.tabsActiveHash[1])) {
             tabsTitles[index].classList.add(this.classSelectors.active)
+            tabsTitles[index].setAttribute('tabindex', '0')
           }
 
           tabsContentItem.hidden = !tabsTitles[index].classList.contains(this.classSelectors.active)
@@ -222,6 +228,116 @@ export default class Tabs {
       }
 
       e.preventDefault()
+    }
+  }
+
+  private getCurrentTabsData(tabsBlock: HTMLElement) {
+    const tabsTitles = Array.from(tabsBlock.querySelectorAll<HTMLElement>(this.dataSelectors.title))
+    const activeIndex = tabsTitles.findIndex(title => title.classList.contains(this.classSelectors.active))
+
+    return {
+      tabsTitles,
+      activeIndex,
+    }
+  }
+
+  private activateTabByIndex(tabsBlock: HTMLElement, newIndex: number): void {
+    const { tabsTitles } = this.getCurrentTabsData(tabsBlock)
+    const newTab = tabsTitles[newIndex]
+
+    if (newTab && !newTab.classList.contains(this.classSelectors.active)) {
+      tabsTitles.forEach((tab) => {
+        tab.classList.remove(this.classSelectors.active)
+        tab.setAttribute('tabindex', '-1')
+      })
+
+      newTab.classList.add(this.classSelectors.active)
+      newTab.setAttribute('tabindex', '0')
+      newTab.focus()
+      this.setTabsStatus(tabsBlock)
+    }
+  }
+
+  private previousTab = (): void => {
+    if (!this.currentTabsBlock) {
+      return
+    }
+
+    const { tabsTitles, activeIndex } = this.getCurrentTabsData(this.currentTabsBlock)
+    const newIndex = activeIndex === 0 ? tabsTitles.length - 1 : activeIndex - 1
+
+    this.activateTabByIndex(this.currentTabsBlock, newIndex)
+  }
+
+  private nextTab = (): void => {
+    if (!this.currentTabsBlock) {
+      return
+    }
+
+    const { tabsTitles, activeIndex } = this.getCurrentTabsData(this.currentTabsBlock)
+    const newIndex = activeIndex === tabsTitles.length - 1 ? 0 : activeIndex + 1
+
+    this.activateTabByIndex(this.currentTabsBlock, newIndex)
+  }
+
+  private firstTab = (): void => {
+    if (!this.currentTabsBlock) {
+      return
+    }
+
+    this.activateTabByIndex(this.currentTabsBlock, 0)
+  }
+
+  private lastTab = (): void => {
+    if (!this.currentTabsBlock) {
+      return
+    }
+
+    const { tabsTitles } = this.getCurrentTabsData(this.currentTabsBlock)
+
+    this.activateTabByIndex(this.currentTabsBlock, tabsTitles.length - 1)
+  }
+
+  private onKeyDown = (event: KeyboardEvent): void => {
+    const { code, metaKey } = event
+
+    const action = {
+      ArrowLeft: this.previousTab,
+      ArrowRight: this.nextTab,
+      Home: this.firstTab,
+      End: this.lastTab,
+    }[code]
+
+    const isMacHomeKey = metaKey && code === 'ArrowLeft'
+
+    if (isMacHomeKey) {
+      this.firstTab()
+
+      return
+    }
+
+    const isMacEndKey = metaKey && code === 'ArrowRight'
+
+    if (isMacEndKey) {
+      this.lastTab()
+
+      return
+    }
+
+    if (action) {
+      action()
+      event.preventDefault()
+    }
+  }
+
+  private handleTabFocus = (event: FocusEvent): void => {
+    const target = event.target as HTMLElement
+    const tabTitle = target.closest(this.dataSelectors.title)
+
+    if (tabTitle) {
+      const tabsBlock = tabTitle.closest(this.dataSelectors.root) as HTMLElement
+
+      this.currentTabsBlock = tabsBlock
     }
   }
 }
