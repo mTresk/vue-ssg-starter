@@ -3,7 +3,7 @@ import { dataMediaQueries, slideToggle, slideUp } from '@/utils/base/helpers'
 
 export default class Spoilers {
   private spoilersArray: HTMLElement[]
-  private spoilersRegular: HTMLElement[]
+  private readonly spoilersRegular: HTMLElement[]
   private mdQueriesArray: IMediaQueryResult[] | null = null
   private outsideClickHandler: ((e: MouseEvent) => void) | null = null
 

@@ -335,9 +335,7 @@ export default class Tabs {
     const tabTitle = target.closest(this.dataSelectors.title)
 
     if (tabTitle) {
-      const tabsBlock = tabTitle.closest(this.dataSelectors.root) as HTMLElement
-
-      this.currentTabsBlock = tabsBlock
+      this.currentTabsBlock = tabTitle.closest(this.dataSelectors.root) as HTMLElement
     }
   }
 }

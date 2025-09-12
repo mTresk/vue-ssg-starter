@@ -1,11 +1,11 @@
 export default class Map {
-  private mapRoot: HTMLElement | null
+  private readonly mapRoot: HTMLElement | null
   private selector: string = '[data-map]'
   private apiKey: string = import.meta.env.VITE_YANDEX_MAPS_API_KEY
 
   constructor() {
     this.mapRoot = document.querySelector<HTMLElement>(this.selector)
-    this.init()
+    this.init().then(() => {})
   }
 
   private async init() {

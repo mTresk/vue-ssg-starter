@@ -263,10 +263,6 @@ export function pxToRem(pixels: number) {
 }
 
 export function resolveSourcePath(src: string): string {
-  if (typeof src !== 'string') {
-    return src
-  }
-
   if (import.meta.env.DEV && src.startsWith('@/')) {
     return src.replace('@/', '/src/')
   }

@@ -3,7 +3,7 @@ import { dataMediaQueries, slideDown, slideUp } from '@/utils/base/helpers'
 
 export default class ShowMore {
   private showMoreBlocks: HTMLElement[]
-  private showMoreBlocksRegular: HTMLElement[]
+  private readonly showMoreBlocksRegular: HTMLElement[]
   private mdQueriesArray: IMediaQueryResult[] | null = null
   private actionsHandler: ((e: Event) => void) | null = null
   private resizeHandler: ((e: Event) => void) | null = null
@@ -127,7 +127,7 @@ export default class ShowMore {
   }
 
   private getHeight(showMoreBlock: HTMLElement, showMoreContent: HTMLElement): number {
-    let hiddenHeight = 0
+    let hiddenHeight
     const showMoreType = showMoreBlock.dataset.showmore ? showMoreBlock.dataset.showmore : 'size'
     const wasHidden = showMoreContent.hidden
     const originalHeight = showMoreContent.style.height

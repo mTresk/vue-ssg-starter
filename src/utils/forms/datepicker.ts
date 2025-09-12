@@ -12,8 +12,7 @@ function initDatepicker() {
         overlayPlaceholder: 'Год (4 цифры)',
         startDay: 1,
         formatter: (input, date) => {
-          const value = date.toLocaleDateString()
-          input.value = value
+          input.value = date.toLocaleDateString()
         },
       })
     })

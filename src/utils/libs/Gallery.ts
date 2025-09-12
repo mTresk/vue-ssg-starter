@@ -1,8 +1,6 @@
-import type { LightGallery } from 'lightgallery/lightgallery'
 import lightGallery from 'lightgallery'
 
 export default class Gallery {
-  private galleries: LightGallery[] = []
   private selector: string = '[data-gallery]'
   private licenseKey: string = import.meta.env.VITE_LIGHT_GALLERY_KEY
 
@@ -14,7 +12,7 @@ export default class Gallery {
     const galleryElements = document.querySelectorAll<HTMLElement>(this.selector)
 
     galleryElements.forEach((element) => {
-      const gallery = lightGallery(element, {
+      lightGallery(element, {
         licenseKey: this.licenseKey,
         speed: 500,
         mobileSettings: {
@@ -23,8 +21,6 @@ export default class Gallery {
           download: false,
         },
       })
-
-      this.galleries.push(gallery)
     })
   }
 }

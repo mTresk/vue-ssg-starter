@@ -36,7 +36,7 @@ function initRangeSlider() {
     rangeStart.value = min
     rangeEnd.value = max
 
-    function setrangeValues() {
+    function setRangeValues() {
       if (!rangeStart || !rangeEnd) {
         return
       }
@@ -70,8 +70,8 @@ function initRangeSlider() {
       }
     }
 
-    rangeStart.addEventListener('change', setrangeValues)
-    rangeEnd.addEventListener('change', setrangeValues)
+    rangeStart.addEventListener('change', setRangeValues)
+    rangeEnd.addEventListener('change', setRangeValues)
     sliderElement.noUiSlider.on('slide', setValue)
   })
 }
