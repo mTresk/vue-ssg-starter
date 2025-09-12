@@ -1,5 +1,3 @@
-import type { LightGallery } from 'lightgallery/lightgallery'
-
 export interface IBreakpoint {
   value: string
   type: string
@@ -9,11 +7,6 @@ export interface IBreakpoint {
 export interface IMediaQueryResult {
   itemsArray: HTMLElement[]
   matchMedia: MediaQueryList
-}
-
-export interface IGalleryItem {
-  gallery: HTMLElement
-  galleryClass: LightGallery
 }
 
 export interface IWatcherConfig {
