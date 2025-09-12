@@ -204,6 +204,8 @@ async function generateFontsScss(): Promise<void> {
   const fontsFile = `${appFolder}/styles/fonts.scss`
 
   try {
+    await ensureDirectoryExists(path.build.fonts)
+
     const allFiles = await fs.promises.readdir(path.build.fonts)
     const fonts = allFiles.filter(isValidFontFile)
     const filteredFiles = allFiles.filter(file => !isValidFontFile(file))
@@ -239,12 +241,11 @@ async function generateFontsScss(): Promise<void> {
           processedFonts.add(fontFileName)
         }
       }
+
+      console.warn(`Generated fonts.scss with ${processedFonts.size} font(s)`)
     }
     else {
-      try {
-        await fs.promises.unlink(fontsFile)
-      }
-      catch {}
+      console.warn('No fonts found, skipping fonts.scss generation')
     }
   }
   catch (error) {
@@ -267,4 +268,4 @@ async function processFonts(): Promise<void> {
   }
 }
 
-processFonts()
+processFonts().then(() => {})
