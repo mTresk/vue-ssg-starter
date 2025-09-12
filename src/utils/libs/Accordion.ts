@@ -60,6 +60,11 @@ export default class Accordion {
       return
     }
 
+    const root = accordion.closest<HTMLElement>(this.selectors.root)
+    const duration = this.getAnimationDuration(root)
+
+    accordion.style.setProperty('--transition', `max-height ${duration}ms ease-in-out`)
+
     if (accordion.hasAttribute(this.attributes.open)) {
       accordion.style.setProperty('--max-height', `${pxToRem(content.scrollHeight)}rem`)
     }

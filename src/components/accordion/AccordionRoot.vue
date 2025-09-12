@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide } from 'vue'
+import { computed } from 'vue'
 
 interface IProps {
   isSingle?: boolean
@@ -8,8 +8,6 @@ interface IProps {
 }
 
 const props = defineProps<IProps>()
-
-provide('accordionDuration', computed(() => props.duration || 300))
 
 const attributes = computed(() => {
   const attrs: Record<string, string | number | boolean> = {}

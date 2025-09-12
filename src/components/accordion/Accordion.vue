@@ -1,15 +1,3 @@
-<script setup lang="ts">
-import { computed, inject } from 'vue'
-
-const injectedDuration = inject<{ value: number }>('accordionDuration', { value: 300 })
-
-const animation = computed(() => {
-  const duration = injectedDuration.value || 300
-
-  return `max-height ${duration}ms ease-in-out`
-})
-</script>
-
 <template>
   <details
     data-accordion
@@ -26,11 +14,12 @@ const animation = computed(() => {
 <style lang="scss">
 details {
   --max-height: 0;
+  --transition: max-height 300ms ease-in-out;
 
   &::details-content {
     max-height: 0;
     overflow: hidden;
-    transition: v-bind(animation);
+    transition: var(--transition);
   }
 
   &[open] {
