@@ -40,7 +40,7 @@ export default defineConfig({
           const extention = info[info.length - 1]
 
           if (['woff', 'woff2', 'ttf', 'otf', 'eot'].includes(extention)) {
-            return `assets/fonts/[name]-[hash][extname]`
+            return `assets/fonts/[name][extname]`
           }
 
           if (/png|jpe?g|svg|gif|tiff|bmp|ico|webp|avif/i.test(extention)) {
