@@ -1,10 +1,5 @@
 import type { LightGallery } from 'lightgallery/lightgallery'
 
-export interface IMediaQueryItem {
-  itemsArray: HTMLElement[]
-  matchMedia: MediaQueryList
-}
-
 export interface IBreakpoint {
   value: string
   type: string
