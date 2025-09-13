@@ -38,6 +38,9 @@ function removeAppWrapper(dir: string) {
         const updatedContent = content
           .replace(/<div id="app"[^>]*>\s*/, '')
           .replace(/\s*<\/div>\s*<\/body>/, '</body>')
+          .replace(/<!--\[-->/g, '')
+          .replace(/<!--\]-->/g, '')
+          .replace(/<!---->/g, '')
 
         writeFileSync(fullPath, updatedContent, 'utf8')
       }
