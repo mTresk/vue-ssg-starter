@@ -54,19 +54,16 @@
 
   @if $keepSize != 1 and $keepSize != 3 {
     @media (min-width: $widthFromMedia) {
-      /* stylelint-disable-next-line no-invalid-position-declaration */
       #{$property}: rem($startSize);
     }
   }
 
   @media (min-width: $widthToMedia) and (max-width: $widthFromMedia) {
     @supports (#{$property}: $propertyValue) {
-      /* stylelint-disable-next-line no-invalid-position-declaration */
       #{$property}: $propertyValue;
     }
 
     @supports not (#{$property}: $propertyValue) {
-      /* stylelint-disable-next-line no-invalid-position-declaration */
       #{$property}: calc(
         #{rem($minSize)} + #{$addSize} * (100vw - #{rem($widthTo)}) /
           #{math.div($widthFrom, 16) - math.div($widthTo, 16)}
@@ -76,7 +73,6 @@
 
   @if $keepSize != 1 and $keepSize != 2 {
     @media (max-width: $widthToMedia) {
-      /* stylelint-disable-next-line no-invalid-position-declaration */
       #{$property}: rem($minSize);
     }
   }
