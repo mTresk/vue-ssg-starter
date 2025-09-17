@@ -44,14 +44,6 @@ defineProps<IProps>()
 </template>
 
 <style lang="scss">
-html {
-  &:has(dialog[open]) {
-    overflow: hidden;
-    overscroll-behavior: none;
-    touch-action: none;
-  }
-}
-
 .popup {
   position: fixed;
   inset: 0;
