@@ -6,6 +6,7 @@ export default class Popup {
     close: '[data-popup-close]',
     content: '[data-popup-content]',
     vkPlace: '[data-popup-vk-place]',
+    inlineVideo: 'video',
   }
 
   private boundHandlers: Map<Element, () => void> = new Map()
@@ -34,6 +35,8 @@ export default class Popup {
       dialog.showModal()
       dialog.focus()
 
+      this.handleInlineVideo(dialog, 'play')
+
       if (!this.wasLocked) {
         bodyLock()
       }
@@ -47,6 +50,8 @@ export default class Popup {
     if (dialog) {
       this.cleanupVkVideo(dialog)
       dialog.setAttribute('closing', '')
+
+      this.handleInlineVideo(dialog, 'pause')
 
       setTimeout(() => {
         dialog.close()
@@ -228,6 +233,16 @@ export default class Popup {
         })
       }
     })
+  }
+
+  private handleInlineVideo(dialog: HTMLDialogElement, action: 'play' | 'pause'): void {
+    const inlineVideo = dialog.querySelector<HTMLVideoElement>(this.selectors.inlineVideo)
+
+    if (!inlineVideo) {
+      return
+    }
+
+    inlineVideo[action]()
   }
 
   private normalizeId(dialogId: string): string {

@@ -4,6 +4,7 @@ import Icon from '@/components/Icon.vue'
 interface IProps {
   id: string
   isVideo?: boolean
+  isInlineVideo?: boolean
 }
 
 defineProps<IProps>()
@@ -13,7 +14,7 @@ defineProps<IProps>()
   <dialog
     :id="id"
     class="popup"
-    :class="{ 'popup--video': isVideo }"
+    :class="{ 'popup--video': isVideo || isInlineVideo }"
   >
     <div
       class="popup__wrapper"
@@ -36,7 +37,6 @@ defineProps<IProps>()
           data-popup-vk-place
           class="popup__video"
         />
-
         <slot />
       </div>
     </div>
@@ -101,10 +101,22 @@ defineProps<IProps>()
     animation: content-show 0.3s ease forwards;
 
     .popup--video & {
+      position: relative;
       max-width: rem(1280);
+      aspect-ratio: 16/9;
       padding: 0;
       background-color: var(--color-main);
       border-radius: 0;
+
+      video,
+      iframe,
+      object,
+      embed {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 
@@ -138,22 +150,6 @@ defineProps<IProps>()
       &:hover {
         color: var(--color-accent);
       }
-    }
-  }
-
-  &__video {
-    position: relative;
-    aspect-ratio: 16/9;
-    overflow: hidden;
-
-    video,
-    iframe,
-    object,
-    embed {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
     }
   }
 }
