@@ -28,5 +28,11 @@ module.exports = {
     'declaration-property-value-no-unknown': null,
     'unit-disallowed-list': ['px'],
     'no-invalid-position-declaration': null,
+    'function-no-unknown': [
+      true,
+      {
+        ignoreFunctions: ['fluid', 'rem', 'em'],
+      },
+    ],
   },
 }
