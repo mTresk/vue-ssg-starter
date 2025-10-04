@@ -42,7 +42,6 @@ const rootAttrs = computed(() => {
       data-select
       :name="name"
       :data-placeholder="placeholder"
-      :options="options"
       v-bind="dataAttrs"
     >
       <option
