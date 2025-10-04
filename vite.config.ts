@@ -13,7 +13,7 @@ export default defineConfig({
     vue(),
     injectScripts({
       enabled: true,
-      position: 'end',
+      position: 'start',
     }),
     minifyVendor(),
     svgSprite(),
