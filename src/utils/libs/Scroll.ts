@@ -1,4 +1,4 @@
-import { getHash, logger } from '@/utils/base/helpers'
+import { getHash, LOCK_DURATION, logger } from '@/utils/base/helpers'
 import Menu from '@/utils/libs/Menu'
 
 class Scroll {
@@ -106,7 +106,7 @@ class Scroll {
       }
 
       if (isMenuOpen) {
-        setTimeout(performScroll, 500)
+        setTimeout(performScroll, LOCK_DURATION)
       }
       else {
         performScroll()

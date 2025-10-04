@@ -1,5 +1,7 @@
 import type { IBreakpoint, IMediaQueryResult } from '@/types'
 
+export const LOCK_DURATION = 300 as const
+
 export function getHash(): string | undefined {
   if (location.hash) {
     return location.hash.replace('#', '')
@@ -104,7 +106,7 @@ export let bodyLockStatus = true
 
 let scrollPosition = 0
 
-export function bodyUnlock(delay: number = 500) {
+export function bodyUnlock(delay: number = LOCK_DURATION) {
   const body = document.querySelector<HTMLBodyElement>('body')!
 
   if (bodyLockStatus) {
@@ -135,7 +137,7 @@ export function bodyUnlock(delay: number = 500) {
   }
 }
 
-export function bodyLock(delay: number = 500) {
+export function bodyLock(delay: number = LOCK_DURATION) {
   const body = document.querySelector<HTMLBodyElement>('body')
 
   if (bodyLockStatus) {
@@ -164,7 +166,7 @@ export function bodyLock(delay: number = 500) {
   }
 }
 
-export function bodyLockToggle(delay: number = 500) {
+export function bodyLockToggle(delay: number = LOCK_DURATION) {
   if (document.documentElement.classList.contains('lock')) {
     bodyUnlock(delay)
   }
