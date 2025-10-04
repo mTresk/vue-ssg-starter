@@ -4,7 +4,7 @@
   >
     <div class="form__body">
       <div
-        v-if="$slots.header"
+        v-if="$slots.title || $slots.description"
         class="form__header"
       >
         <h2
