@@ -85,21 +85,32 @@ class Scroll {
         }
       }
 
-      if (document.documentElement.classList.contains('menu-open')) {
+      const isMenuOpen = document.documentElement.classList.contains('menu-open')
+
+      if (isMenuOpen) {
         this.menu.menuClose()
       }
 
-      let targetBlockElementPosition = targetBlockElement.getBoundingClientRect().top + scrollY
+      const performScroll = () => {
+        let targetBlockElementPosition = targetBlockElement.getBoundingClientRect().top + scrollY
 
-      targetBlockElementPosition = headerItemHeight ? targetBlockElementPosition - headerItemHeight : targetBlockElementPosition
-      targetBlockElementPosition = offsetTop ? targetBlockElementPosition - offsetTop : targetBlockElementPosition
+        targetBlockElementPosition = headerItemHeight ? targetBlockElementPosition - headerItemHeight : targetBlockElementPosition
+        targetBlockElementPosition = offsetTop ? targetBlockElementPosition - offsetTop : targetBlockElementPosition
 
-      window.scrollTo({
-        top: targetBlockElementPosition,
-        behavior: 'smooth',
-      })
+        window.scrollTo({
+          top: targetBlockElementPosition,
+          behavior: 'smooth',
+        })
 
-      logger(`[gotoBlock]: Юхуу...едем до ${targetBlock}`)
+        logger(`[gotoBlock]: Юхуу...едем до ${targetBlock}`)
+      }
+
+      if (isMenuOpen) {
+        setTimeout(performScroll, 500)
+      }
+      else {
+        performScroll()
+      }
     }
   }
 
