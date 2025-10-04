@@ -3,19 +3,34 @@
     class="form"
   >
     <div class="form__body">
-      <div class="form__header">
-        <h2 class="form__title">
+      <div
+        v-if="$slots.header"
+        class="form__header"
+      >
+        <h2
+          v-if="$slots.title"
+          class="form__title"
+        >
           <slot name="title" />
         </h2>
-        <p class="form__description">
+        <p
+          v-if="$slots.description"
+          class="form__description"
+        >
           <slot name="description" />
         </p>
       </div>
-      <div class="form__fields">
+      <div
+        v-if="$slots.fields"
+        class="form__fields"
+      >
         <slot name="fields" />
       </div>
     </div>
-    <div class="form__footer">
+    <div
+      v-if="$slots.footer"
+      class="form__footer"
+    >
       <slot name="footer" />
     </div>
   </form>
