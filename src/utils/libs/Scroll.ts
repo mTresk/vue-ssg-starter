@@ -38,6 +38,10 @@ class Scroll {
     window.addEventListener('scroll', () => {
       const currentScroll = window.scrollY
 
+      if (document.documentElement.classList.contains('lock')) {
+        return
+      }
+
       if (currentScroll <= 0) {
         body.classList.remove(scrollUp)
 
