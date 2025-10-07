@@ -204,6 +204,13 @@ async function analyzeComponentUsage(srcDir: string): Promise<Set<string>> {
 
   usedComponents.add('@/App.vue')
 
+  const allCodeFiles = await findFiles(srcDir, ['.vue', '.ts', '.js'])
+  const pagesFiles = allCodeFiles.filter(file => file.includes('/pages/'))
+
+  for (const pageFile of pagesFiles) {
+    usedComponents.add(pageFile)
+  }
+
   const allUsedComponents = new Set<string>()
 
   for (const component of usedComponents) {
