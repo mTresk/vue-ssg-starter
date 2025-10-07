@@ -1,4 +1,4 @@
-import { getHash, LOCK_DURATION, logger } from '@/utils/base/helpers'
+import { bodyLocking, getHash, LOCK_DURATION, logger } from '@/utils/base/helpers'
 import Menu from '@/utils/libs/Menu'
 
 class Scroll {
@@ -38,7 +38,7 @@ class Scroll {
     window.addEventListener('scroll', () => {
       const currentScroll = window.scrollY
 
-      if (document.documentElement.classList.contains('lock')) {
+      if (bodyLocking()) {
         return
       }
 

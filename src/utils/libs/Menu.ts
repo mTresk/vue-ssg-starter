@@ -1,4 +1,4 @@
-import { bodyLock, bodyLockStatus, bodyLockToggle, bodyUnlock } from '@/utils/base/helpers'
+import { bodyLock, bodyLocking, bodyLockToggle, bodyUnlock } from '@/utils/base/helpers'
 
 export default class Menu {
   private selectors = {
@@ -15,7 +15,7 @@ export default class Menu {
       document.addEventListener('click', (e: MouseEvent) => {
         const target = e.target as HTMLElement
 
-        if (bodyLockStatus && target.closest(this.selectors.menuButton)) {
+        if (!bodyLocking() && target.closest(this.selectors.menuButton)) {
           bodyLockToggle()
 
           document.documentElement.classList.toggle(this.selectors.activeClass)
