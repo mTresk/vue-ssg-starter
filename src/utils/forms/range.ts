@@ -77,5 +77,5 @@ function initRangeSlider() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  initRangeSlider()
+  setTimeout(() => initRangeSlider())
 })

@@ -16,5 +16,5 @@ function initSelect() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  initSelect()
+  setTimeout(() => initSelect())
 })

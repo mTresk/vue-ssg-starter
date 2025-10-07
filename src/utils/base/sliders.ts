@@ -22,5 +22,5 @@ function initSliders() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  initSliders()
+  setTimeout(() => initSliders())
 })

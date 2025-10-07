@@ -8,5 +8,5 @@ function initTippy() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  initTippy()
+  setTimeout(() => initTippy())
 })

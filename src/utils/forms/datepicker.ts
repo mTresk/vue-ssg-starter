@@ -20,5 +20,5 @@ function initDatepicker() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  initDatepicker()
+  setTimeout(() => initDatepicker())
 })

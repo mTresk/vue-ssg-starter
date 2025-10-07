@@ -15,5 +15,5 @@ export function initMask() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  initMask()
+  setTimeout(() => initMask())
 })

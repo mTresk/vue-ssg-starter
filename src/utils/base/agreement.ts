@@ -29,5 +29,5 @@ function agreement() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  agreement()
+  setTimeout(() => agreement())
 })

@@ -16,5 +16,5 @@ function initScrollbar() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  initScrollbar()
+  setTimeout(() => initScrollbar())
 })
