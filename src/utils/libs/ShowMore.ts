@@ -8,6 +8,7 @@ export default class ShowMore {
   private actionsHandler: ((e: Event) => void) | null = null
   private resizeHandler: ((e: Event) => void) | null = null
   private resizeTimeout: number | null = null
+  private previousWidth: number = window.innerWidth
 
   private dataSelectors = {
     root: '[data-showmore]',
@@ -102,9 +103,13 @@ export default class ShowMore {
       }
 
       const hiddenHeight = this.getHeight(showMoreBlock, showMoreContent)
+      const isActive = showMoreBlock.classList.contains(this.classSelectors.active)
 
       if (hiddenHeight < this.getOriginalHeight(showMoreContent)) {
-        slideUp(showMoreContent, 0, hiddenHeight)
+        if (!isActive) {
+          slideUp(showMoreContent, 0, hiddenHeight)
+        }
+
         showMoreButton.hidden = false
       }
       else {
@@ -294,12 +299,18 @@ export default class ShowMore {
     }
 
     this.resizeTimeout = window.setTimeout(() => {
-      if (this.showMoreBlocksRegular.length) {
-        this.initItems(this.showMoreBlocksRegular, false)
-      }
+      const currentWidth = window.innerWidth
 
-      if (this.mdQueriesArray && this.mdQueriesArray.length) {
-        this.initItemsMedia(this.mdQueriesArray)
+      if (currentWidth !== this.previousWidth) {
+        if (this.showMoreBlocksRegular.length) {
+          this.initItems(this.showMoreBlocksRegular, false)
+        }
+
+        if (this.mdQueriesArray && this.mdQueriesArray.length) {
+          this.initItemsMedia(this.mdQueriesArray)
+        }
+
+        this.previousWidth = currentWidth
       }
 
       this.resizeTimeout = null
