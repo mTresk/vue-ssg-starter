@@ -8,7 +8,7 @@ import injectScripts from './plugins/inject-scripts'
 import minifyVendor from './plugins/minify-vendor'
 import svgSprite from './plugins/svg-sprite'
 
-export default defineConfig({
+export default defineConfig(({ isSsrBuild }) => ({
   plugins: [
     vue(),
     injectScripts({
@@ -18,10 +18,10 @@ export default defineConfig({
     minifyVendor(),
     svgSprite(),
     devIndex(),
-    ViteImageOptimizer({
+    !isSsrBuild && ViteImageOptimizer({
       test: /\.(jpe?g|png|gif|tiff|webp|avif)$/i,
     }),
-  ],
+  ].filter(Boolean),
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -75,4 +75,4 @@ export default defineConfig({
     mock: true,
     entry: 'src/main.ts',
   } satisfies ViteSSGOptions,
-})
+}))
