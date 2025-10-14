@@ -11,6 +11,7 @@ defineProps<IProps>()
     :is="href ? 'a' : 'button'"
     class="button"
     :href="href"
+    :type="!href ? 'button' : undefined"
   >
     <slot />
   </component>
