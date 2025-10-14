@@ -1,7 +1,6 @@
 export default class Map {
   private readonly mapRoot: HTMLElement | null
   private selector: string = '[data-map]'
-  private apiKey: string = import.meta.env.VITE_YANDEX_MAPS_API_KEY
 
   constructor() {
     this.mapRoot = document.querySelector<HTMLElement>(this.selector)
@@ -93,13 +92,14 @@ export default class Map {
 
   private loadYMaps() {
     return new Promise((resolve, reject) => {
+      const apiKey = this.mapRoot!.getAttribute('data-map-key')
       const script = document.createElement('script')
-      script.src = `https://api-maps.yandex.ru/v3/?apikey=${this.apiKey}&lang=ru_RU`
-      script.onload = () => {
-        // @ts-expect-error - ymaps3
-        resolve(window.ymaps3)
-      }
+
+      script.src = `https://api-maps.yandex.ru/v3/?apikey=${apiKey}&lang=ru_RU`
+      // @ts-expect-error - ymaps3
+      script.onload = () => resolve(window.ymaps3)
       script.onerror = () => reject(new Error('Failed to load Yandex Maps API'))
+
       document.body.appendChild(script)
     })
   }

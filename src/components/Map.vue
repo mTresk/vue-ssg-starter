@@ -4,12 +4,15 @@ interface IProps {
 }
 
 defineProps<IProps>()
+
+const apiKey = import.meta.env.VITE_YANDEX_MAPS_API_KEY
 </script>
 
 <template>
   <div
     class="map"
     :data-map="coordinates"
+    :data-map-key="apiKey"
   />
 </template>
 
