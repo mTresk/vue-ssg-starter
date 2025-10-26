@@ -64,7 +64,6 @@ defineProps<IProps>()
 
   &::backdrop {
     background-color: rgb(0 0 0 / 80%);
-    opacity: 0;
     animation: backdrop-show 0.5s ease forwards;
   }
 
