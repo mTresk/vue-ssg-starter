@@ -29,6 +29,7 @@ export default defineConfig(({ isSsrBuild }) => ({
   },
   build: {
     minify: false,
+    cssMinify: false,
     rollupOptions: {
       output: {
         manualChunks(id) {

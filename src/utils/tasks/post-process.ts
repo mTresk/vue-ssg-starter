@@ -5,6 +5,7 @@ import { basename, extname, join, relative } from 'node:path'
 import * as cheerio from 'cheerio'
 import beautify from 'js-beautify'
 import sharp from 'sharp'
+import { postProcessConfig } from './post-process.config'
 
 function generateFileHash(filePath: string, width?: number, quality?: number, formats?: string[]): string {
   const fileBuffer = readFileSync(filePath)
@@ -269,44 +270,28 @@ async function postProcessDistFiles() {
           await processDirectory(fullPath)
         }
         else if (item.name.endsWith('.html')) {
-          const content = readFileSync(fullPath, 'utf8')
+          if (postProcessConfig.beautifyHtml) {
+            const content = readFileSync(fullPath, 'utf8')
 
-          const contentWithOptimizedImages = await processDataOptimization(content)
+            const contentWithOptimizedImages = await processDataOptimization(content)
 
-          const beautified = beautifyHtml(contentWithOptimizedImages, {
-            indent_size: 4,
-            preserve_newlines: false,
-            max_preserve_newlines: 1,
-            wrap_line_length: 0,
-            end_with_newline: true,
-            indent_inner_html: true,
-            wrap_attributes: 'auto',
-            wrap_attributes_indent_size: 4,
-            content_unformatted: ['pre', 'textarea'],
-            inline: ['span', 'strong', 'em', 'b', 'i', 'code', 'small'],
-          })
+            const beautified = beautifyHtml(contentWithOptimizedImages, postProcessConfig.htmlOptions)
 
-          writeFileSync(fullPath, beautified, 'utf8')
+            writeFileSync(fullPath, beautified, 'utf8')
 
-          console.warn(`Post-processed HTML: ${item.name}`)
+            console.warn(`Post-processed HTML: ${item.name}`)
+          }
         }
         else if (item.name.endsWith('.css')) {
-          const content = readFileSync(fullPath, 'utf8')
+          if (postProcessConfig.beautifyCss) {
+            const content = readFileSync(fullPath, 'utf8')
 
-          const beautified = beautifyCss(content, {
-            indent_size: 2,
-            preserve_newlines: true,
-            max_preserve_newlines: 1,
-            wrap_line_length: 160,
-            end_with_newline: true,
-            newline_between_rules: false,
-            selector_separator_newline: true,
-            space_around_combinator: true,
-          })
+            const beautified = beautifyCss(content, postProcessConfig.cssOptions)
 
-          writeFileSync(fullPath, beautified, 'utf8')
+            writeFileSync(fullPath, beautified, 'utf8')
 
-          console.warn(`Post-processed CSS: ${item.name}`)
+            console.warn(`Post-processed CSS: ${item.name}`)
+          }
         }
       }
     }
