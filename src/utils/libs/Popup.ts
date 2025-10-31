@@ -177,28 +177,30 @@ export default class Popup {
     const dialogs = document.querySelectorAll<HTMLDialogElement>('dialog')
 
     dialogs.forEach((dialog) => {
-      const closeButton = dialog.querySelector<HTMLElement>(this.selectors.close)
+      const closeButtons = dialog.querySelectorAll<HTMLElement>(this.selectors.close)
 
-      if (closeButton && !this.boundHandlers.has(closeButton)) {
-        const handleCloseClick = () => {
-          this.closeDialog(dialog)
-        }
-
-        const handleCloseKeyDown = (event: KeyboardEvent) => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault()
+      closeButtons.forEach((closeButton) => {
+        if (!this.boundHandlers.has(closeButton)) {
+          const handleCloseClick = () => {
             this.closeDialog(dialog)
           }
+
+          const handleCloseKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault()
+              this.closeDialog(dialog)
+            }
+          }
+
+          closeButton.addEventListener('click', handleCloseClick)
+          closeButton.addEventListener('keydown', handleCloseKeyDown)
+
+          this.boundHandlers.set(closeButton, () => {
+            closeButton.removeEventListener('click', handleCloseClick)
+            closeButton.removeEventListener('keydown', handleCloseKeyDown)
+          })
         }
-
-        closeButton.addEventListener('click', handleCloseClick)
-        closeButton.addEventListener('keydown', handleCloseKeyDown)
-
-        this.boundHandlers.set(closeButton, () => {
-          closeButton.removeEventListener('click', handleCloseClick)
-          closeButton.removeEventListener('keydown', handleCloseKeyDown)
-        })
-      }
+      })
 
       if (!this.boundHandlers.has(dialog)) {
         const handleBackdropClick = (event: MouseEvent) => {
