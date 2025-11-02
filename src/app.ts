@@ -11,6 +11,7 @@ import Menu from '@/utils/libs/Menu'
 import Quantity from '@/utils/libs/Quantity'
 import Map from '@/utils/libs/Map'
 import Accordion from '@/utils/libs/Accordion'
+import ShowMoreSimple from './utils/libs/ShowMoreSimple'
 
 // import '@/utils/script'
 // import '@/utils/forms/datepicker'
@@ -32,6 +33,7 @@ export function initializeApp() {
   // new ResponsiveAdapter('max')
   // new ScrollWatcher({})
   // new ShowMore()
+  // new ShowMoreSimple()
   // new Spoilers()
   // new Tabs()
   // new Quantity()
