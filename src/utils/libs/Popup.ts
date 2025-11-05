@@ -1,4 +1,4 @@
-import { bodyLock, bodyUnlock } from '@/utils/base/helpers'
+import { bodyLock, bodyUnlock, LOCK_DURATION } from '@/utils/base/helpers'
 
 export default class Popup {
   private selectors = {
@@ -12,19 +12,27 @@ export default class Popup {
   private boundHandlers: Map<Element, () => void> = new Map()
   private vkVideos: Map<string, string> = new Map()
   private wasLocked: boolean = false
+  private unlockTimer: number | null = null
 
   constructor() {
     this.init()
   }
 
   public open(dialogId: string): void {
+    const wasLockedBeforeClose = document.documentElement.classList.contains('lock')
+
     this.closeAll()
 
     const id = this.normalizeId(dialogId)
     const dialog = document.querySelector<HTMLDialogElement>(`#${id}`)
 
     if (dialog) {
-      this.wasLocked = document.documentElement.classList.contains('lock')
+      if (this.unlockTimer !== null) {
+        clearTimeout(this.unlockTimer)
+        this.unlockTimer = null
+      }
+
+      this.wasLocked = wasLockedBeforeClose
 
       const vkCode = this.vkVideos.get(id)
 
@@ -32,6 +40,7 @@ export default class Popup {
         this.createVkVideo(dialog, vkCode)
       }
 
+      dialog.removeAttribute('closing')
       dialog.showModal()
       dialog.focus()
 
@@ -47,7 +56,7 @@ export default class Popup {
     const id = this.normalizeId(dialogId)
     const dialog = document.querySelector<HTMLDialogElement>(`#${id}`)
 
-    if (dialog) {
+    if (dialog && dialog.open && !dialog.hasAttribute('closing')) {
       this.cleanupVkVideo(dialog)
       dialog.setAttribute('closing', '')
 
@@ -56,10 +65,17 @@ export default class Popup {
       setTimeout(() => {
         dialog.close()
         dialog.removeAttribute('closing')
-      }, 500)
+      }, LOCK_DURATION)
 
       if (!this.wasLocked) {
-        bodyUnlock(500)
+        if (this.unlockTimer !== null) {
+          clearTimeout(this.unlockTimer)
+        }
+
+        this.unlockTimer = window.setTimeout(() => {
+          bodyUnlock(0)
+          this.unlockTimer = null
+        }, LOCK_DURATION)
       }
     }
   }
@@ -106,22 +122,18 @@ export default class Popup {
   private closeAll(): void {
     const openDialogs = document.querySelectorAll<HTMLDialogElement>('dialog[open]')
 
-    if (openDialogs.length > 0) {
-      openDialogs.forEach((dialog) => {
-        if (dialog.id) {
-          this.cleanupVkVideo(dialog)
-          dialog.setAttribute('closing', '')
-
-          setTimeout(() => {
-            dialog.close()
-            dialog.removeAttribute('closing')
-          }, 500)
-        }
-      })
-
-      if (!this.wasLocked) {
-        bodyUnlock(500)
+    openDialogs.forEach((dialog) => {
+      if (dialog.id) {
+        this.cleanupVkVideo(dialog)
+        this.handleInlineVideo(dialog, 'pause')
+        dialog.removeAttribute('closing')
+        dialog.close()
       }
+    })
+
+    if (this.unlockTimer !== null) {
+      clearTimeout(this.unlockTimer)
+      this.unlockTimer = null
     }
   }
 
