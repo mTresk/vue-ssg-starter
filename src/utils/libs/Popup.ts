@@ -19,7 +19,12 @@ export default class Popup {
   }
 
   public open(dialogId: string): void {
-    const wasLockedBeforeClose = document.documentElement.classList.contains('lock')
+    const openDialogs = document.querySelectorAll<HTMLDialogElement>('dialog[open]')
+    const hasOpenPopups = openDialogs.length > 0
+
+    if (!hasOpenPopups) {
+      this.wasLocked = document.documentElement.classList.contains('lock')
+    }
 
     this.closeAll()
 
@@ -31,8 +36,6 @@ export default class Popup {
         clearTimeout(this.unlockTimer)
         this.unlockTimer = null
       }
-
-      this.wasLocked = wasLockedBeforeClose
 
       const vkCode = this.vkVideos.get(id)
 
