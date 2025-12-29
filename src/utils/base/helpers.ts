@@ -2,8 +2,6 @@ import type { IBreakpoint, IMediaQueryResult } from '@/types'
 
 let isBodyLockInProgress = false
 
-let scrollPosition = 0
-
 export const LOCK_DURATION = 500 as const
 
 export const SLIDE_DURATION = 500 as const
@@ -127,11 +125,9 @@ export function bodyUnlock(delay: number = LOCK_DURATION) {
       }
 
       body.style.paddingRight = '0'
-      body.style.position = ''
-      body.style.top = ''
+      body.style.overflow = 'auto'
+      body.style.pointerEvents = 'auto'
       document.documentElement.classList.remove('lock')
-
-      window.scrollTo({ top: scrollPosition, behavior: 'instant' })
     }, delay)
 
     isBodyLockInProgress = true
@@ -148,8 +144,6 @@ export function bodyLock(delay: number = LOCK_DURATION) {
   if (!isBodyLockInProgress) {
     const lockPadding = document.querySelectorAll<HTMLElement>('[data-lp]')
 
-    scrollPosition = window.pageYOffset || document.documentElement.scrollTop
-
     for (let index = 0; index < lockPadding.length; index++) {
       const el = lockPadding[index]
 
@@ -158,9 +152,8 @@ export function bodyLock(delay: number = LOCK_DURATION) {
       }
     }
 
-    body!.style.paddingRight = `${window.innerWidth - document.querySelector<HTMLElement>('.wrapper')!.offsetWidth}px`
-    body!.style.position = 'fixed'
-    body!.style.top = `-${scrollPosition}px`
+    body!.style.overflow = 'hidden'
+    body!.style.pointerEvents = 'none'
     document.documentElement.classList.add('lock')
 
     isBodyLockInProgress = true

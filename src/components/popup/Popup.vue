@@ -53,6 +53,7 @@ defineProps<IProps>()
   max-height: 100%;
   padding: 0;
   margin: 0;
+  pointer-events: auto;
   background: transparent;
   border: none;
   opacity: 0;
