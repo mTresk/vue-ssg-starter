@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
-import Breadcrumb from '@/components/layout/Breadcrumb.vue'
+import BaseContainer from '@/components/Base/BaseContainer.vue'
+import Breadcrumb from '@/components/Breadcrumb.vue'
 
 useHead({
   title: 'Контактные данные',
@@ -11,8 +12,8 @@ const breadcrumbItems = [{ title: 'Главная', href: '/' }, { title: 'Ко�
 
 <template>
   <section class="contacts">
-    <div class="contacts__container">
+    <BaseContainer class="contacts__container">
       <Breadcrumb :items="breadcrumbItems" />
-    </div>
+    </BaseContainer>
   </section>
 </template>

@@ -3,8 +3,8 @@ import { useHead } from '@unhead/vue'
 import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { initializeApp } from '@/app'
-import Footer from '@/components/layout/Footer.vue'
-import Header from '@/components/layout/Header.vue'
+import TheFooter from '@/components/TheFooter.vue'
+import TheHeader from '@/components/TheHeader.vue'
 
 useHead({
   htmlAttrs: { lang: 'ru' },
@@ -35,10 +35,10 @@ onMounted(() => {
 
 <template>
   <div class="wrapper">
-    <Header :class="{ 'header--dark': hasDarkHeader }" />
+    <TheHeader :class="{ 'header--dark': hasDarkHeader }" />
     <main class="main">
       <RouterView />
     </main>
-    <Footer />
+    <TheFooter />
   </div>
 </template>

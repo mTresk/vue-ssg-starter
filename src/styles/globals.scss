@@ -1,5 +1,3 @@
-@use 'sass:math';
-
 #app {
   height: 100%;
 }
@@ -24,18 +22,5 @@ html {
 
   > * {
     min-width: 0;
-  }
-}
-
-[class*='__container'] {
-  @if $maxWidthContainer > 0 {
-    max-width: rem($containerWidth);
-    margin-inline: auto;
-  }
-
-  @if $containerPadding > 0 {
-    @if $maxWidthContainer > 0 {
-      padding-inline: rem(math.div($containerPadding, 2));
-    }
   }
 }

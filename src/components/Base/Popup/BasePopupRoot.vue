@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Popup from '@/components/popup/Popup.vue'
+import Popup from '@/components/Base/Popup/BasePopup.vue'
 </script>
 
 <template>
