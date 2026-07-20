@@ -1,5 +1,17 @@
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
-import { join } from 'node:path'
+import { basename, join } from 'node:path'
+
+const BUILTIN_COMPONENTS = new Set([
+  'RouterLink',
+  'RouterView',
+  'Transition',
+  'TransitionGroup',
+  'KeepAlive',
+  'Teleport',
+  'Suspense',
+  'Component',
+  'Slot',
+])
 
 async function findFiles(dir: string, extensions: string[], baseDir: string = dir): Promise<string[]> {
   const files: string[] = []
@@ -50,7 +62,90 @@ function normalizeImportPath(importPath: string, currentFilePath: string): strin
   return importPath
 }
 
-async function findDirectlyUsedComponents(srcDir: string): Promise<Set<string>> {
+function kebabToPascal(name: string): string {
+  return name
+    .split('-')
+    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+    .join('')
+}
+
+function extractTemplate(content: string): string {
+  const match = content.match(/<template\b[^>]*>([\s\S]*?)<\/template>/i)
+
+  return match?.[1] ?? ''
+}
+
+function extractComponentTags(content: string): Set<string> {
+  const names = new Set<string>()
+  const template = removeComments(extractTemplate(content))
+  const tagMatches = template.matchAll(/<\/?([A-Z]\w*|[a-z]\w*-[-\w]*)\b/g)
+
+  for (const match of tagMatches) {
+    const rawName = match[1]
+
+    if (!rawName) {
+      continue
+    }
+
+    const componentName = rawName.includes('-')
+      ? kebabToPascal(rawName)
+      : rawName
+
+    if (BUILTIN_COMPONENTS.has(componentName)) {
+      continue
+    }
+
+    names.add(componentName)
+  }
+
+  return names
+}
+
+function extractVueImports(content: string, currentFilePath: string): Set<string> {
+  const imports = new Set<string>()
+  const contentWithoutComments = removeComments(content)
+  const patterns = [
+    /import\s+\w+\s+from\s+['"]([^'"]*\.vue)['"]/g,
+    /import\s*\(\s*['"]([^'"]*\.vue)['"]\s*\)/g,
+  ]
+
+  for (const pattern of patterns) {
+    for (const match of contentWithoutComments.matchAll(pattern)) {
+      const importPath = match[1]
+
+      if (!importPath) {
+        continue
+      }
+
+      const normalizedPath = normalizeImportPath(importPath, currentFilePath)
+
+      if (normalizedPath.startsWith('@/')) {
+        imports.add(normalizedPath)
+      }
+    }
+  }
+
+  return imports
+}
+
+function buildComponentNameMap(vueFiles: string[]): Map<string, string> {
+  const nameMap = new Map<string, string>()
+
+  for (const filePath of vueFiles) {
+    const componentName = basename(filePath, '.vue')
+
+    if (!nameMap.has(componentName)) {
+      nameMap.set(componentName, filePath)
+    }
+  }
+
+  return nameMap
+}
+
+async function findDirectlyUsedComponents(
+  srcDir: string,
+  componentNameMap: Map<string, string>,
+): Promise<Set<string>> {
   const directlyUsedComponents = new Set<string>()
   const allCodeFiles = await findFiles(srcDir, ['.vue', '.ts', '.js'])
   const fileMap = new Map<string, string>()
@@ -80,7 +175,7 @@ async function findDirectlyUsedComponents(srcDir: string): Promise<Set<string>> 
 
   const visited = new Set<string>()
 
-  async function findImportsInFile(filePath: string) {
+  async function findDependenciesInFile(filePath: string) {
     if (visited.has(filePath)) {
       return
     }
@@ -90,44 +185,25 @@ async function findDirectlyUsedComponents(srcDir: string): Promise<Set<string>> 
     try {
       const fullPath = join(srcDir, filePath.replace('@', ''))
       const content = await readFile(fullPath, 'utf-8')
-      const contentWithoutComments = removeComments(content)
-      const importMatches = contentWithoutComments.matchAll(/import\s+\w+\s+from\s+['"]([^'"]*\.vue)['"]/g)
+      const relatedPaths = new Set<string>(extractVueImports(content, filePath))
 
-      for (const match of importMatches) {
-        const importPath = match[1]
+      if (filePath.endsWith('.vue')) {
+        for (const componentName of extractComponentTags(content)) {
+          const resolvedPath = componentNameMap.get(componentName)
 
-        if (importPath) {
-          const normalizedPath = normalizeImportPath(importPath, filePath)
-
-          if (normalizedPath.startsWith('@/')) {
-            directlyUsedComponents.add(normalizedPath)
-
-            const cleanImportPath = normalizedPath.replace('@', '')
-
-            if (fileMap.has(cleanImportPath)) {
-              await findImportsInFile(fileMap.get(cleanImportPath)!)
-            }
+          if (resolvedPath) {
+            relatedPaths.add(resolvedPath)
           }
         }
       }
 
-      const dynamicImportMatches = contentWithoutComments.matchAll(/import\s*\(\s*['"]([^'"]*\.vue)['"]\s*\)/g)
+      for (const relatedPath of relatedPaths) {
+        directlyUsedComponents.add(relatedPath)
 
-      for (const match of dynamicImportMatches) {
-        const importPath = match[1]
+        const cleanImportPath = relatedPath.replace('@', '')
 
-        if (importPath) {
-          const normalizedPath = normalizeImportPath(importPath, filePath)
-
-          if (normalizedPath.startsWith('@/')) {
-            directlyUsedComponents.add(normalizedPath)
-
-            const cleanImportPath = normalizedPath.replace('@', '')
-
-            if (fileMap.has(cleanImportPath)) {
-              await findImportsInFile(fileMap.get(cleanImportPath)!)
-            }
-          }
+        if (fileMap.has(cleanImportPath)) {
+          await findDependenciesInFile(fileMap.get(cleanImportPath)!)
         }
       }
     }
@@ -137,13 +213,17 @@ async function findDirectlyUsedComponents(srcDir: string): Promise<Set<string>> 
   }
 
   for (const filePath of filesToCheck) {
-    await findImportsInFile(filePath)
+    await findDependenciesInFile(filePath)
   }
 
   return directlyUsedComponents
 }
 
-async function findComponentDependencies(srcDir: string, componentPath: string): Promise<Set<string>> {
+async function findComponentDependencies(
+  srcDir: string,
+  componentPath: string,
+  componentNameMap: Map<string, string>,
+): Promise<Set<string>> {
   const dependencies = new Set<string>()
   const visited = new Set<string>()
 
@@ -157,37 +237,19 @@ async function findComponentDependencies(srcDir: string, componentPath: string):
     try {
       const fullPath = join(srcDir, compPath.replace('@/', ''))
       const content = await readFile(fullPath, 'utf-8')
-      const contentWithoutComments = removeComments(content)
-      const importMatches = contentWithoutComments.matchAll(/import\s+\w+\s+from\s+['"]([^'"]*\.vue)['"]/g)
+      const relatedPaths = new Set<string>(extractVueImports(content, compPath))
 
-      for (const match of importMatches) {
-        const importPath = match[1]
+      for (const componentName of extractComponentTags(content)) {
+        const resolvedPath = componentNameMap.get(componentName)
 
-        if (importPath) {
-          const normalizedPath = normalizeImportPath(importPath, compPath)
-
-          if (normalizedPath.startsWith('@/')) {
-            dependencies.add(normalizedPath)
-
-            await findDeps(normalizedPath)
-          }
+        if (resolvedPath) {
+          relatedPaths.add(resolvedPath)
         }
       }
 
-      const dynamicImportMatches = contentWithoutComments.matchAll(/import\s*\(\s*['"]([^'"]*\.vue)['"]\s*\)/g)
-
-      for (const match of dynamicImportMatches) {
-        const importPath = match[1]
-
-        if (importPath) {
-          const normalizedPath = normalizeImportPath(importPath, compPath)
-
-          if (normalizedPath.startsWith('@/')) {
-            dependencies.add(normalizedPath)
-
-            await findDeps(normalizedPath)
-          }
-        }
+      for (const relatedPath of relatedPaths) {
+        dependencies.add(relatedPath)
+        await findDeps(relatedPath)
       }
     }
     catch (error) {
@@ -200,7 +262,9 @@ async function findComponentDependencies(srcDir: string, componentPath: string):
 }
 
 async function analyzeComponentUsage(srcDir: string): Promise<Set<string>> {
-  const usedComponents = await findDirectlyUsedComponents(srcDir)
+  const allVueFiles = await findFiles(srcDir, ['.vue'])
+  const componentNameMap = buildComponentNameMap(allVueFiles)
+  const usedComponents = await findDirectlyUsedComponents(srcDir, componentNameMap)
 
   usedComponents.add('@/App.vue')
 
@@ -216,7 +280,7 @@ async function analyzeComponentUsage(srcDir: string): Promise<Set<string>> {
   for (const component of usedComponents) {
     allUsedComponents.add(component)
 
-    const dependencies = await findComponentDependencies(srcDir, component)
+    const dependencies = await findComponentDependencies(srcDir, component, componentNameMap)
 
     for (const dep of dependencies) {
       allUsedComponents.add(dep)

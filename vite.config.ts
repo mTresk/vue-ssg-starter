@@ -1,6 +1,8 @@
 import type { ViteSSGOptions } from 'vite-ssg'
 import { fileURLToPath, URL } from 'node:url'
 import vue from '@vitejs/plugin-vue'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer'
 import devIndex from './plugins/dev-index'
@@ -11,6 +13,25 @@ import svgSprite from './plugins/svg-sprite'
 export default defineConfig(({ isSsrBuild }) => ({
   plugins: [
     vue(),
+    AutoImport({
+      imports: [
+        'vue',
+        'vue-router',
+        {
+          '@unhead/vue': ['useHead'],
+        },
+      ],
+      dts: 'auto-imports.d.ts',
+      vueTemplate: true,
+    }),
+    Components({
+      dirs: ['src/components', 'src/sections'],
+      dts: 'components.d.ts',
+      types: [{
+        from: 'vue-router',
+        names: ['RouterLink', 'RouterView'],
+      }],
+    }),
     injectScripts({
       enabled: true,
       position: 'end',

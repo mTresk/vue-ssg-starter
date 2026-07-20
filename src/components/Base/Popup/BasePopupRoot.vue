@@ -1,12 +1,8 @@
-<script setup lang="ts">
-import Popup from '@/components/Base/Popup/BasePopup.vue'
-</script>
-
 <template>
-  <Popup id="popup">
+  <BasePopup id="popup">
     Контент попапа
-  </Popup>
-  <Popup
+  </BasePopup>
+  <BasePopup
     id="video"
     is-video
   />

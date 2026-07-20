@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { computed, useAttrs } from 'vue'
-
 interface IProps {
   id: string
   name: string

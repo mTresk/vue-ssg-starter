@@ -12,8 +12,8 @@ defineProps<IProps>()
 
 <template>
   <ul
-    class="breadcrumb"
-    :class="{ 'breadcrumb--dark': isDark }"
+    class="breadcrumbs"
+    :class="{ 'breadcrumbs--dark': isDark }"
   >
     <li
       v-for="item in items"
@@ -31,7 +31,7 @@ defineProps<IProps>()
 </template>
 
 <style lang="scss">
-.breadcrumb {
+.breadcrumbs {
   position: relative;
   z-index: 20;
   display: flex;

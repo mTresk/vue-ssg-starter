@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import BaseContainer from '@/components/Base/BaseContainer.vue'
-import BaseSection from '@/components/Base/BaseSection.vue'
-</script>
-
 <template>
   <BaseSection class="hero">
     <BaseContainer class="hero__container">

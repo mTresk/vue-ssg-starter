@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-
 interface IProps {
   isSingle?: boolean
   isCloseOutside?: boolean

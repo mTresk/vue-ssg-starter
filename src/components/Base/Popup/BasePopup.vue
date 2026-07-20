@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import Icon from '@/components/Base/BaseIcon.vue'
-
 interface IProps {
   id: string
   isVideo?: boolean
@@ -27,7 +25,7 @@ defineProps<IProps>()
           data-popup-close
           class="popup__close"
         >
-          <Icon
+          <BaseIcon
             size="32"
             name="close"
           />

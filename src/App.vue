@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import { useHead } from '@unhead/vue'
-import { computed, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
 import { initializeApp } from '@/app'
-import TheFooter from '@/components/TheFooter.vue'
-import TheHeader from '@/components/TheHeader.vue'
 
 useHead({
   htmlAttrs: { lang: 'ru' },

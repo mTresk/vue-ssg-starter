@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { resolveSourcePath } from '@/utils/base/helpers'
 
 interface IProps {
