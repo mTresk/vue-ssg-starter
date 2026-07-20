@@ -39,13 +39,13 @@ export default defineConfig(({ isSsrBuild }) => ({
         },
         assetFileNames: (assetInfo) => {
           const info = assetInfo.names[0].split('.')
-          const extention = info[info.length - 1]
+          const extension = info[info.length - 1]
 
-          if (['woff', 'woff2', 'ttf', 'otf', 'eot'].includes(extention)) {
+          if (['woff', 'woff2', 'ttf', 'otf', 'eot'].includes(extension)) {
             return `assets/fonts/[name][extname]`
           }
 
-          if (/png|jpe?g|svg|gif|tiff|bmp|ico|webp|avif/i.test(extention)) {
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico|webp|avif/i.test(extension)) {
             return `assets/images/[name]-[hash][extname]`
           }
 
