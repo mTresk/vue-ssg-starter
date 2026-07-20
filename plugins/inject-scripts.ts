@@ -1,4 +1,3 @@
-import type { OutputChunk } from 'rollup'
 import type { Plugin } from 'vite'
 
 interface InjectScriptsOptions {
@@ -40,14 +39,13 @@ export default function injectScripts(options: InjectScriptsOptions = {}): Plugi
         source: content,
       })
 
-      const chunk = appJsChunk as OutputChunk
-      const originalCode = chunk.code
+      const originalCode = appJsChunk.code
 
       if (position === 'end') {
-        chunk.code = `${originalCode}\nimport './${fileName}';`
+        appJsChunk.code = `${originalCode}\nimport './${fileName}';`
       }
       else {
-        chunk.code = `import './${fileName}';\n${originalCode}`
+        appJsChunk.code = `import './${fileName}';\n${originalCode}`
       }
     },
   }
