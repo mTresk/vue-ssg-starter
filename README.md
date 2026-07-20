@@ -59,8 +59,6 @@ npm run dev
 ## Структура проекта
 
 ```
-├── auto-imports.d.ts   # Типы автоимпорта API (генерируется Vite)
-├── components.d.ts     # Типы автоимпорта компонентов (генерируется Vite)
 ├── public/             # Статические файлы (копируются как есть)
 │   ├── images/         # Изображения для продакшена
 │   │   └── favicons/   # Иконки сайта
@@ -129,8 +127,7 @@ const count = ref(0)
 
 ### Типы
 
-- `auto-imports.d.ts` и `components.d.ts` генерируются Vite и **коммитятся** в репозиторий
-- файлы обновляются при `npm run dev` / `npm run build`
+- `auto-imports.d.ts` и `components.d.ts` генерируются Vite при `npm run dev` / `npm run build` и находятся в `.gitignore`
 - после переименования или удаления компонента дождитесь обновления от Vite или перезапустите `dev`
 
 ### Новый компонент
@@ -356,7 +353,7 @@ const count = ref(0)
 - Строгая типизация
 - Современные настройки
 - Поддержка Vue 3
-- Типы автоимпорта через `auto-imports.d.ts` и `components.d.ts`
+- Типы автоимпорта генерируются Vite (`auto-imports.d.ts`, `components.d.ts`)
 
 ### ESLint
 - Конфигурация `@antfu/eslint-config`
