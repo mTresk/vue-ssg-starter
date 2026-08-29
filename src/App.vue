@@ -10,10 +10,7 @@ useHead({
     },
   ],
   link: [
-    { rel: 'apple-touch-icon', sizes: '180x180', href: '/images/favicons/apple-touch-icon.png' },
-    { rel: 'icon', type: 'image/png', sizes: '96x96', href: '/images/favicons/favicon-96x96.png' },
-    { rel: 'icon', type: 'image/x-icon', href: '/images/favicons/favicon.ico' },
-    { rel: 'manifest', href: '/images/favicons/site.webmanifest' },
+    { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
   ],
 })
 

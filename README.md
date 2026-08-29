@@ -64,7 +64,7 @@ npm run dev
 ```
 ├── public/             # Статические файлы (копируются как есть)
 │   ├── images/         # Изображения для продакшена
-│   │   └── favicons/   # Иконки сайта
+│   ├── favicon.ico     # Favicon сайта
 │   ├── robots.txt      # Файл для поисковых роботов
 │   └── icons.svg       # SVG спрайт (генерируется из assets/icons/)
 ├── snippets.json       # Конфигурация сниппетов для VS Code
