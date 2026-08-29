@@ -41,20 +41,23 @@ npm run dev
 
 ### Разработка
 - `npm run dev` — запуск сервера разработки
+- `npm run generate` — генерация `styles-entry` и типов иконок (также выполняется в `prepare` / `dev` / `build`)
 
 ### Сборка
-- `npm run build` — полная сборка проекта (включает оптимизацию и линтинг)
+- `npm run build` — сборка проекта (без мутации исходников)
 - `npm run preview` — предварительный просмотр собранного проекта
 
 ### Линтинг и форматирование
-- `npm run lint` — проверка кода линтерами
-- `npm run lint:fix` — проверка с автоисправлением
-- `npm run fix-all` — полная оптимизация (px-to-rem + линтинг)
+- `npm run lint` — проверка JS/Vue, CSS/SCSS и TypeScript
+- `npm run type-check` — проверка типов (`vue-tsc`)
+- `npm run lint:fix` — автоисправление ESLint и Stylelint
+- `npm run fix-all` — px-to-rem + lint:fix (отдельная команда, не входит в `build`)
 
 ### Утилиты
 - `npm run fonts` — генерация woff2 шрифтов из исходников
 - `npm run px-to-rem` — конвертация px в rem
 - `npm run generate-styles-entry` — генерация списка используемых Vue-файлов для стилей
+- `npm run generate-icon-types` — генерация `IconName` из `src/assets/icons`
 
 ## Структура проекта
 
@@ -127,8 +130,8 @@ const count = ref(0)
 
 ### Типы
 
-- `auto-imports.d.ts`, `components.d.ts` и `src/types/icons.d.ts` генерируются Vite при `npm run dev` / `npm run build` и находятся в `.gitignore`
-- после переименования или удаления компонента/иконки дождитесь обновления от Vite или перезапустите `dev`
+- `auto-imports.d.ts`, `components.d.ts` и `src/types/icons.d.ts` генерируются при `npm install` (`prepare`), `npm run generate`, `dev` и `build`; находятся в `.gitignore`
+- после переименования или удаления компонента/иконки дождитесь обновления от Vite, перезапустите `dev` или выполните `npm run generate`
 
 ### Новый компонент
 
@@ -194,7 +197,7 @@ const count = ref(0)
 - `size` — размер иконки в пикселях
 - либо отдельно `width` и `height`
 
-Типы генерируются Vite в `src/types/icons.d.ts` (в `.gitignore`) при `npm run dev` / `npm run build`.
+Типы генерируются в `src/types/icons.d.ts` (в `.gitignore`) при `npm install`, `npm run generate`, `dev` и `build`.
 
 #### BasePicture
 Компонент для автоматической оптимизации изображений с поддержкой современных форматов (AVIF, WebP) и адаптивных размеров.

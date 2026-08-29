@@ -68,6 +68,7 @@ declare global {
 
   interface ImportMetaEnv {
     readonly VITE_YANDEX_MAPS_API_KEY: string
+    readonly VITE_LIGHT_GALLERY_KEY: string
   }
 
   interface ImportMeta {
