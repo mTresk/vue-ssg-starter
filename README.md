@@ -127,8 +127,8 @@ const count = ref(0)
 
 ### Типы
 
-- `auto-imports.d.ts` и `components.d.ts` генерируются Vite при `npm run dev` / `npm run build` и находятся в `.gitignore`
-- после переименования или удаления компонента дождитесь обновления от Vite или перезапустите `dev`
+- `auto-imports.d.ts`, `components.d.ts` и `src/types/icons.d.ts` генерируются Vite при `npm run dev` / `npm run build` и находятся в `.gitignore`
+- после переименования или удаления компонента/иконки дождитесь обновления от Vite или перезапустите `dev`
 
 ### Новый компонент
 
@@ -172,8 +172,8 @@ const count = ref(0)
 
 #### BaseIcon
 Для использования иконок:
-1. Поместите SVG файл в папку `src/assets/icons/`
-2. Используйте компонент `BaseIcon` с именем файла:
+1. Поместите SVG файл в `src/assets/icons/` (поддерживаются вложенные папки)
+2. Используйте компонент `BaseIcon` — `name` типизирован (`IconName`) и подхватывается из имён файлов
 
 ```html
 <template>
@@ -182,7 +182,7 @@ const count = ref(0)
     size="24"
   />
   <BaseIcon
-    name="menu"
+    name="arrows/left"
     width="32"
     height="32"
   />
@@ -190,9 +190,11 @@ const count = ref(0)
 ```
 
 **Props:**
-- `name` — название иконки (имя файла без `.svg`)
+- `name` (`IconName`) — имя файла без `.svg`; для вложенных папок — относительный путь (`arrows/left.svg` → `arrows/left`)
 - `size` — размер иконки в пикселях
 - либо отдельно `width` и `height`
+
+Типы генерируются Vite в `src/types/icons.d.ts` (в `.gitignore`) при `npm run dev` / `npm run build`.
 
 #### BasePicture
 Компонент для автоматической оптимизации изображений с поддержкой современных форматов (AVIF, WebP) и адаптивных размеров.
@@ -353,7 +355,7 @@ const count = ref(0)
 - Строгая типизация
 - Современные настройки
 - Поддержка Vue 3
-- Типы автоимпорта генерируются Vite (`auto-imports.d.ts`, `components.d.ts`)
+- Типы автоимпорта и иконок генерируются Vite (`auto-imports.d.ts`, `components.d.ts`, `src/types/icons.d.ts`)
 
 ### ESLint
 - Конфигурация `@antfu/eslint-config`

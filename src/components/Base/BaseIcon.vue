@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import type { IconName } from '@/types/icons'
+
 interface IProps {
-  name: string
+  name: IconName
   width?: string | number
   height?: string | number
   size?: string | number

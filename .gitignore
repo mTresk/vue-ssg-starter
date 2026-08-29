@@ -13,3 +13,5 @@ src/assets/fonts-raw/*
 !src/assets/fonts-raw/.gitkeep
 components.d.ts
 auto-imports.d.ts
+src/types/icons.d.ts
+public/images/icons.svg
