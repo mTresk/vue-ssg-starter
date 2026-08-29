@@ -7,9 +7,9 @@ const breadcrumbItems = [{ title: 'Главная', href: '/' }, { title: 'Ко�
 </script>
 
 <template>
-  <section class="contacts">
+  <BaseSection class="contacts">
     <BaseContainer class="contacts__container">
       <Breadcrumbs :items="breadcrumbItems" />
     </BaseContainer>
-  </section>
+  </BaseSection>
 </template>
