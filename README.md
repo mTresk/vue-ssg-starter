@@ -170,6 +170,7 @@ const count = ref(0)
 - **Breadcrumbs** — хлебные крошки
 - **BaseAccordion / BaseAccordionRoot** — аккордеоны с анимацией
 - **BaseSection / BaseContainer** — секция и контейнер макета
+- **BaseMap** — Яндекс.Карта (lazy-load, zoom по CTRL, несколько маркеров)
 
 ### Использование:
 
@@ -198,6 +199,35 @@ const count = ref(0)
 - либо отдельно `width` и `height`
 
 Типы генерируются в `src/types/icons.d.ts` (в `.gitignore`) при `npm install`, `npm run generate`, `dev` и `build`.
+
+#### BaseMap
+Яндекс.Карта v3. Координаты в формате `lat,lon`. Карта инициализируется лениво при появлении во viewport. Zoom колёсиком — только с зажатым CTRL.
+
+```html
+<template>
+  <!-- Одна точка -->
+  <BaseMap coordinates="55.751244,37.618423" :zoom="16" />
+
+  <!-- Центр + несколько маркеров -->
+  <BaseMap
+    center="55.751244,37.618423"
+    :zoom="14"
+    :markers="[
+      { coordinates: '55.751244,37.618423' },
+      { coordinates: '55.76,37.64' },
+    ]"
+  />
+</template>
+```
+
+**Props:**
+- `coordinates` — точка (`lat,lon`); используется как центр и маркер, если не заданы `center` / `markers`
+- `center` — центр карты (`lat,lon`)
+- `zoom` — масштаб (по умолчанию `17`)
+- `markers` — массив `{ coordinates: string }`
+- `showZoomOverlay` — подсказка про CTRL при скролле (по умолчанию `true`)
+
+Не забудьте раскомментировать `new Map()` в `src/app.ts` и задать `VITE_YANDEX_MAPS_API_KEY` в `.env`.
 
 #### BasePicture
 Компонент для автоматической оптимизации изображений с поддержкой современных форматов (AVIF, WebP) и адаптивных размеров.
@@ -325,7 +355,7 @@ const count = ref(0)
 
 ### JavaScript библиотеки:
 - **Gallery** — lightbox галерея изображений
-- **Map** — инициализация Yandex Карт
+- **Map** — Yandex Maps: lazy-load, zoom по CTRL, несколько маркеров
 - **Menu** — логика бургер-меню
 - **Parallax** — параллакс эффекты
 - **Popup** — управление модальными окнами
