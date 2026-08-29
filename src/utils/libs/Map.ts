@@ -217,7 +217,11 @@ export default class Map {
     let scrollCount = getScrollZoomCount()
 
     const showOverlay = () => {
-      if (!overlay || scrollCount >= SCROLL_ZOOM_LEARNED_THRESHOLD) {
+      if (
+        !overlay
+        || scrollCount >= SCROLL_ZOOM_LEARNED_THRESHOLD
+        || !window.matchMedia('(any-hover: hover) and (pointer: fine)').matches
+      ) {
         return
       }
 

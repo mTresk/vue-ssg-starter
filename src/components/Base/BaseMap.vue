@@ -101,6 +101,7 @@ const markersJson = computed(() => JSON.stringify(markersValue.value))
     position: absolute;
     inset: auto 0 0;
     z-index: 10;
+    display: none;
     width: 100%;
     padding: rem(16);
     font-size: rem(14);
@@ -111,6 +112,10 @@ const markersJson = computed(() => JSON.stringify(markersValue.value))
     background: linear-gradient(transparent, rgb(0 0 0 / 75%));
     opacity: 0;
     transition: opacity 0.3s ease;
+
+    @media (any-hover: hover) and (pointer: fine) {
+      display: block;
+    }
 
     &--active {
       opacity: 1;
