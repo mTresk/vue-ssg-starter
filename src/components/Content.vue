@@ -16,10 +16,6 @@
     &:not(:first-child) {
       @include adaptive-value('margin-top', 100, 80);
     }
-
-    @media (max-width: $tablet) {
-      line-height: 135%;
-    }
   }
 
   h3 {
@@ -31,10 +27,6 @@
 
     &:not(:first-child) {
       @include adaptive-value('margin-top', 40, 32);
-    }
-
-    @media (max-width: $tablet) {
-      line-height: 135%;
     }
   }
 
@@ -55,12 +47,6 @@
     text-decoration: underline;
     text-decoration-skip-ink: none;
     transition: color 0.3s ease-in-out;
-
-    @media (any-hover: hover) {
-      &:hover {
-        color: var(--color-hover);
-      }
-    }
   }
 
   ul {
@@ -132,10 +118,6 @@
         counter-increment: liCounter;
 
         @include adaptive-value('font-size', 16, 12);
-      }
-
-      @media (max-width: $tablet) {
-        line-height: 150%;
       }
     }
 
@@ -235,12 +217,6 @@
             text-align: right;
           }
         }
-
-        @media (any-hover: hover) {
-          &:hover {
-            background-color: var(--color-gray-6);
-          }
-        }
       }
     }
   }
@@ -256,10 +232,6 @@
     @include adaptive-value('padding-block', 50, 32);
     @include adaptive-value('padding-left', 109, 34);
     @include adaptive-value('margin-bottom', 100, 80);
-
-    @media (max-width: $tablet) {
-      line-height: 145%;
-    }
 
     &::before {
       position: absolute;
