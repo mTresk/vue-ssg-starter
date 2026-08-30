@@ -143,10 +143,20 @@ export default class Map {
       return
     }
 
-    const centerValue = mapRoot.getAttribute('data-map-center') || mapRoot.getAttribute('data-map')
-    const zoomValue = Number(mapRoot.getAttribute('data-map-zoom') || DEFAULT_ZOOM)
     const markersValue = mapRoot.getAttribute('data-map-markers')
+    let centerValue = mapRoot.getAttribute('data-map-center') || mapRoot.getAttribute('data-map')
+    const zoomValue = Number(mapRoot.getAttribute('data-map-zoom') || DEFAULT_ZOOM)
     const overlay = mapRoot.querySelector<HTMLElement>('[data-map-zoom-overlay]')
+
+    if (!centerValue && markersValue) {
+      try {
+        const parsed = JSON.parse(markersValue) as string[]
+        centerValue = parsed[0] ?? null
+      }
+      catch {
+        centerValue = null
+      }
+    }
 
     if (!centerValue) {
       return

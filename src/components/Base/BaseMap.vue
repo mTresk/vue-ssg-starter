@@ -21,30 +21,20 @@ const props = withDefaults(defineProps<IProps>(), {
 
 const apiKey = import.meta.env.VITE_YANDEX_MAPS_API_KEY
 
-const centerValue = computed(() => {
-  return props.center || props.coordinates || props.markers[0]?.coordinates
-})
-
-const markersValue = computed(() => {
-  if (props.markers.length > 0) {
-    return props.markers.map(marker => marker.coordinates)
+const markersJson = computed(() => {
+  if (props.markers.length === 0) {
+    return undefined
   }
 
-  if (props.coordinates) {
-    return [props.coordinates]
-  }
-
-  return []
+  return JSON.stringify(props.markers.map(marker => marker.coordinates))
 })
-
-const markersJson = computed(() => JSON.stringify(markersValue.value))
 </script>
 
 <template>
   <div
     class="map"
     :data-map="coordinates"
-    :data-map-center="centerValue"
+    :data-map-center="center"
     :data-map-zoom="zoom"
     :data-map-markers="markersJson"
     :data-map-key="apiKey"
