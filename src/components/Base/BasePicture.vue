@@ -9,7 +9,6 @@ interface IProps {
   loading?: 'lazy' | 'eager'
   quality?: number | string
   formats?: string[]
-  class?: string
 }
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -38,7 +37,6 @@ const optimizationAttrs = computed(() => {
       :width="width"
       :height="height"
       :loading="loading"
-      :class="props.class"
     >
   </picture>
 </template>
