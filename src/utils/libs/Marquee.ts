@@ -38,8 +38,9 @@ class MarqueeInstance {
 
   private readonly intersectionObserver: IntersectionObserver
   private readonly mutationObserver: MutationObserver
+  private readonly resizeObserver: ResizeObserver
 
-  private readonly handleResize = () => {
+  private readonly handleWindowResize = () => {
     const currentWidth = globalThis.innerWidth
 
     if (currentWidth === this.lastWidth) {
@@ -55,7 +56,7 @@ class MarqueeInstance {
   }
 
   private readonly handleImageLoad = () => {
-    this.rebuildTrack()
+    this.scheduleRebuildTrack()
   }
 
   constructor(root: HTMLElement, options: MarqueeOptions = {}) {
@@ -89,17 +90,29 @@ class MarqueeInstance {
       }
     })
 
+    this.resizeObserver = new ResizeObserver(() => {
+      if (this.isRebuilding) {
+        return
+      }
+
+      this.refreshPeriodWidth()
+    })
+
     this.buildTrack()
     this.updateImageListeners()
     this.startAnimation()
 
     this.intersectionObserver.observe(this.root)
-    globalThis.addEventListener('resize', this.handleResize)
+    this.resizeObserver.observe(this.line)
+    globalThis.addEventListener('resize', this.handleWindowResize)
     this.mutationObserver.observe(this.line, {
-      attributes: true,
       childList: true,
-      characterData: true,
-      subtree: true,
+    })
+
+    void document.fonts.ready.then(() => {
+      if (this.animationId || this.periodWidth > 0) {
+        this.rebuildTrack()
+      }
     })
   }
 
@@ -107,7 +120,8 @@ class MarqueeInstance {
     this.stopAnimation()
     this.mutationObserver.disconnect()
     this.intersectionObserver.disconnect()
-    globalThis.removeEventListener('resize', this.handleResize)
+    this.resizeObserver.disconnect()
+    globalThis.removeEventListener('resize', this.handleWindowResize)
     clearTimeout(this.resizeTimeout)
 
     if (this.rebuildAnimationId) {
@@ -135,18 +149,7 @@ class MarqueeInstance {
   }
 
   private isSourceMutation(mutation: MutationRecord) {
-    if (mutation.target === this.line && mutation.attributeName === 'style') {
-      return false
-    }
-
-    if (this.isCloneNode(mutation.target)) {
-      return false
-    }
-
-    return (
-      [...mutation.addedNodes, ...mutation.removedNodes].some(node => !this.isCloneNode(node))
-      || mutation.type !== 'childList'
-    )
+    return [...mutation.addedNodes, ...mutation.removedNodes].some(node => !this.isCloneNode(node))
   }
 
   private removeClones() {
@@ -165,9 +168,65 @@ class MarqueeInstance {
     return clone
   }
 
+  private getLineGap() {
+    const styles = getComputedStyle(this.line)
+    const gap = Number.parseFloat(styles.columnGap || styles.gap || '0')
+
+    return Number.isFinite(gap) ? gap : 0
+  }
+
+  private measurePeriodWidth(sourceItems: HTMLElement[]) {
+    if (sourceItems.length === 0) {
+      return 0
+    }
+
+    const firstSource = sourceItems[0]
+    const firstClone = this.line.querySelector<HTMLElement>(`[${CLONE_ATTRIBUTE}]`)
+
+    if (firstSource && firstClone) {
+      const measured = firstClone.getBoundingClientRect().left - firstSource.getBoundingClientRect().left
+
+      if (measured > 0) {
+        return measured
+      }
+    }
+
+    const gap = this.getLineGap()
+    const itemsWidth = sourceItems.reduce((sum, item) => sum + item.getBoundingClientRect().width, 0)
+
+    return itemsWidth + gap * sourceItems.length
+  }
+
+  private normalizeOffset() {
+    if (this.periodWidth <= 0) {
+      this.offset = 0
+      return
+    }
+
+    this.offset %= this.periodWidth
+
+    if (this.offset < 0) {
+      this.offset += this.periodWidth
+    }
+  }
+
+  private refreshPeriodWidth() {
+    const sourceItems = this.getSourceItems()
+    const nextPeriodWidth = this.measurePeriodWidth(sourceItems)
+
+    if (nextPeriodWidth <= 0) {
+      return
+    }
+
+    this.periodWidth = nextPeriodWidth
+    this.normalizeOffset()
+    this.line.style.transform = `translate3d(${-this.offset}px, 0, 0)`
+  }
+
   private buildTrack() {
+    const previousOffset = this.offset
+
     this.removeClones()
-    this.offset = 0
     this.line.style.marginLeft = '0px'
     this.line.style.marginRight = '0px'
     this.line.style.transform = 'translate3d(0px, 0, 0)'
@@ -176,28 +235,23 @@ class MarqueeInstance {
 
     if (sourceItems.length === 0) {
       this.periodWidth = 0
+      this.offset = 0
       return
     }
-
-    const firstClones: HTMLElement[] = []
 
     for (const item of sourceItems) {
-      firstClones.push(this.appendClone(item))
+      this.appendClone(item)
     }
 
-    const referenceClone = firstClones[0]
-    const referenceSource = sourceItems[0]
-
-    if (!referenceClone || !referenceSource) {
-      this.periodWidth = 0
-      return
-    }
-
-    this.periodWidth = referenceClone.offsetLeft - referenceSource.offsetLeft
+    this.periodWidth = this.measurePeriodWidth(sourceItems)
 
     if (this.periodWidth <= 0) {
+      this.offset = 0
       return
     }
+
+    this.offset = previousOffset
+    this.normalizeOffset()
 
     const marqueeRect = this.root.getBoundingClientRect()
     const viewportWidth = globalThis.innerWidth
@@ -219,6 +273,8 @@ class MarqueeInstance {
       this.appendClone(template)
       templateIndex += 1
     }
+
+    this.line.style.transform = `translate3d(${-this.offset}px, 0, 0)`
   }
 
   private updateImageListeners() {
@@ -244,7 +300,11 @@ class MarqueeInstance {
     this.lastFrameTime = currentTime
 
     if (this.periodWidth > 0) {
-      this.offset = (this.offset + (delta / 500) * this.speed) % this.periodWidth
+      this.offset += (delta / 500) * this.speed
+
+      if (this.offset >= this.periodWidth) {
+        this.offset -= this.periodWidth
+      }
     }
 
     this.line.style.transform = `translate3d(${-this.offset}px, 0, 0)`
