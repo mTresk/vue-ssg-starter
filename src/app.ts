@@ -1,5 +1,6 @@
 import ResponsiveAdapter from '@/utils/libs/ResponsiveAdapter'
 import Gallery from '@/utils/libs/Gallery'
+import Marquee from '@/utils/libs/Marquee'
 import Parallax from '@/utils/libs/Parallax'
 import Popup from '@/utils/libs/Popup'
 import ScrollWatcher from '@/utils/libs/ScrollWatcher'
@@ -27,6 +28,7 @@ export function initializeApp() {
   // new Accordion()
   // new Gallery()
   // new Map()
+  // new Marquee()
   // new Menu()
   // new Parallax({})
   // new Popup()

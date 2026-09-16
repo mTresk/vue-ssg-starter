@@ -140,6 +140,32 @@
       "</div>"
     ]
   },
+  "Marquee": {
+    "scope": "html, blade",
+    "prefix": "marquee",
+    "body": [
+      "<div",
+      "\tclass=\"${1:marquee}\"",
+      "\tdata-marquee",
+      "\tdata-marquee-speed=\"${2:50}\"",
+      ">",
+      "\t<div class=\"${1:marquee}__track\">",
+      "\t\t<div class=\"${1:marquee}__line\">",
+      "\t\t\t<div class=\"${1:marquee}__item\">",
+      "\t\t\t\t${3:Элемент 1}",
+      "\t\t\t</div>",
+      "\t\t\t<div class=\"${1:marquee}__item\">",
+      "\t\t\t\t${4:Элемент 2}",
+      "\t\t\t</div>",
+      "\t\t\t<div class=\"${1:marquee}__item\">",
+      "\t\t\t\t${5:Элемент 3}",
+      "\t\t\t</div>",
+      "\t\t</div>",
+      "\t</div>",
+      "</div>"
+    ],
+    "description": "Бесконечная бегущая строка"
+  },
   "Swiper": {
     "scope": "html, blade",
     "prefix": "swiper",

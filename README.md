@@ -356,6 +356,7 @@ const count = ref(0)
 ### JavaScript библиотеки:
 - **Gallery** — lightbox галерея изображений
 - **Map** — Yandex Maps: lazy-load, zoom по CTRL, несколько маркеров
+- **Marquee** — бесконечная бегущая строка
 - **Menu** — логика бургер-меню
 - **Parallax** — параллакс эффекты
 - **Popup** — управление модальными окнами
