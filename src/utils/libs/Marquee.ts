@@ -139,8 +139,20 @@ class MarqueeInstance {
     this.line.style.transform = ''
   }
 
-  private getSourceItems() {
-    return [...this.line.children].filter(item => !item.hasAttribute(CLONE_ATTRIBUTE)) as HTMLElement[]
+  private isItemVisible(item: HTMLElement) {
+    if (getComputedStyle(item).display === 'none') {
+      return false
+    }
+
+    return item.offsetWidth > 0
+  }
+
+  private getSourceItems(): HTMLElement[] {
+    return [...this.line.children].filter((item): item is HTMLElement => {
+      return item instanceof HTMLElement
+        && !item.hasAttribute(CLONE_ATTRIBUTE)
+        && this.isItemVisible(item)
+    })
   }
 
   private isCloneNode(node: Node) {
