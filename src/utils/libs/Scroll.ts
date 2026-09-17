@@ -29,7 +29,7 @@ class Scroll {
     }
   }
 
-  public scrollDirection() {
+  public scrollDirection(threshold = 20) {
     const body = document.body
     const scrollUp = 'scroll-up'
     const scrollDown = 'scroll-down'
@@ -43,16 +43,23 @@ class Scroll {
       }
 
       if (currentScroll <= 0) {
-        body.classList.remove(scrollUp)
+        body.classList.remove(scrollUp, scrollDown)
+        lastScroll = 0
 
         return
       }
 
-      if (currentScroll > lastScroll && !body.classList.contains(scrollDown)) {
+      const delta = currentScroll - lastScroll
+
+      if (Math.abs(delta) < threshold) {
+        return
+      }
+
+      if (delta > 0 && !body.classList.contains(scrollDown)) {
         body.classList.remove(scrollUp)
         body.classList.add(scrollDown)
       }
-      else if (currentScroll < lastScroll && body.classList.contains(scrollDown)) {
+      else if (delta < 0 && body.classList.contains(scrollDown)) {
         body.classList.remove(scrollDown)
         body.classList.add(scrollUp)
       }
