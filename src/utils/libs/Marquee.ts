@@ -262,8 +262,10 @@ class MarqueeInstance {
 
     const minTrackWidth = viewportWidth + rightOverflow + this.periodWidth * 2
     let templateIndex = 0
+    let previousScrollWidth = this.line.scrollWidth
+    const maxClones = Math.max(sourceItems.length * 20, 50)
 
-    while (this.line.scrollWidth < minTrackWidth) {
+    while (this.line.scrollWidth < minTrackWidth && templateIndex < maxClones) {
       const template = sourceItems[templateIndex % sourceItems.length]
 
       if (!template) {
@@ -272,6 +274,12 @@ class MarqueeInstance {
 
       this.appendClone(template)
       templateIndex += 1
+
+      if (this.line.scrollWidth <= previousScrollWidth) {
+        break
+      }
+
+      previousScrollWidth = this.line.scrollWidth
     }
 
     this.line.style.transform = `translate3d(${-this.offset}px, 0, 0)`
