@@ -164,6 +164,7 @@ const count = ref(0)
 - **BaseIcon** — SVG иконки из папки `assets/icons`
 - **BasePicture** — оптимизированные изображения с поддержкой современных форматов
 - **BaseFormField** — поля форм
+- **BaseFormFileField** — поле загрузки файла (`data-file`, логика в `utils/base/file`)
 - **BaseCheckbox / BaseRadio** — чекбоксы и радиокнопки
 - **BaseSelect** — селекты
 - **BasePopup / BasePopupRoot** — модальные окна
