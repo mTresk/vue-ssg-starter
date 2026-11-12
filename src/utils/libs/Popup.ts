@@ -7,6 +7,7 @@ export default class Popup {
     content: '[data-popup-content]',
     vkPlace: '[data-popup-vk-place]',
     inlineVideo: 'video',
+    youtubeVideo: 'iframe[src*="youtube.com"], iframe[src*="youtu.be"], iframe[data-popup-video-src*="youtube"]',
   }
 
   private boundHandlers: Map<Element, () => void> = new Map()
@@ -48,6 +49,7 @@ export default class Popup {
       dialog.focus()
 
       this.handleInlineVideo(dialog, 'play')
+      this.handleYoutubeVideo(dialog, 'play')
 
       if (!this.wasLocked) {
         bodyLock()
@@ -64,6 +66,7 @@ export default class Popup {
       dialog.setAttribute('closing', '')
 
       this.handleInlineVideo(dialog, 'pause')
+      this.handleYoutubeVideo(dialog, 'pause')
 
       setTimeout(() => {
         dialog.close()
@@ -129,6 +132,7 @@ export default class Popup {
       if (dialog.id) {
         this.cleanupVkVideo(dialog)
         this.handleInlineVideo(dialog, 'pause')
+        this.handleYoutubeVideo(dialog, 'pause')
         dialog.removeAttribute('closing')
         dialog.close()
       }
@@ -260,6 +264,37 @@ export default class Popup {
     }
 
     inlineVideo[action]()
+  }
+
+  private handleYoutubeVideo(dialog: HTMLDialogElement, action: 'play' | 'pause'): void {
+    const iframes = dialog.querySelectorAll<HTMLIFrameElement>(this.selectors.youtubeVideo)
+
+    if (!iframes.length) {
+      return
+    }
+
+    iframes.forEach((iframe) => {
+      if (action === 'pause') {
+        const src = iframe.getAttribute('src')
+
+        if (!src) {
+          return
+        }
+
+        iframe.dataset.popupVideoSrc = src
+        iframe.removeAttribute('src')
+        return
+      }
+
+      const savedSrc = iframe.dataset.popupVideoSrc
+
+      if (!savedSrc) {
+        return
+      }
+
+      iframe.setAttribute('src', savedSrc)
+      delete iframe.dataset.popupVideoSrc
+    })
   }
 
   private normalizeId(dialogId: string): string {
